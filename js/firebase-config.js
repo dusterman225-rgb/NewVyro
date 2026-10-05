@@ -61,8 +61,11 @@
     function initializeFirebase() {
 
         if (initialized) {
-            return true;
-        }
+                        return {
+                success: true,
+                auth: firebaseAuth,
+                database: firebaseDb
+            };
 
         if (!isConfigured()) {
 
