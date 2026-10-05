@@ -118,13 +118,17 @@
                     firebase.firestore();
             }
 
-            initialized = true;
+                        initialized = true;
 
             console.log(
                 "VYRO Firebase: Initialized successfully."
             );
 
-            return true;
+            return {
+                success: true,
+                auth: firebaseAuth,
+                database: firebaseDb
+            };
 
         } catch (error) {
 
