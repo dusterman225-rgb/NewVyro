@@ -66,7 +66,8 @@
                 auth: firebaseAuth,
                 database: firebaseDb
             };
-
+        }
+            
         if (!isConfigured()) {
 
             console.error(
