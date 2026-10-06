@@ -1,22 +1,1164 @@
 // =========================================================
-// VYRO — FIREBASE CONFIGURATION
+// VYRO WALLET SYSTEM
 // =========================================================
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAt_KQ3RqV6JJOk6rS_7wDIQV2V7yg7bhg",
-    authDomain: "vyro-104df.firebaseapp.com",
-    projectId: "vyro-104df",
-    storageBucket: "vyro-104df.firebasestorage.app",
-    messagingSenderId: "842493262222",
-    appId: "1:842493262222:web:115d699a41f09cb7c74cdf"
+let initialized = false;
+let connected = false;
+let publicAddress = null;
+let walletType = null;
+let signClient = null;
+let session = null;
+
+
+// =========================================================
+// STORAGE KEYS
+// =========================================================
+
+const ADDRESS_KEY =
+    "vyro_connected_wallet";
+
+const WALLET_TYPE_KEY =
+    "vyro_connected_wallet_type";
+
+
+// =========================================================
+// FORMAT WALLET ADDRESS FOR DISPLAY
+// =========================================================
+
+function formatWalletAddress(address) {
+
+    if (!address) {
+
+        return "Wallet address";
+
+    }
+
+    if (address.length <= 12) {
+
+        return address;
+
+    }
+
+    return (
+        address.substring(0, 6) +
+        "..." +
+        address.substring(
+            address.length - 6
+        )
+    );
+
+}
+
+
+// =========================================================
+// GET ADDRESS FROM WALLETCONNECT SESSION
+// =========================================================
+
+function getAddressFromSession(
+    currentSession
+) {
+
+    if (
+        !currentSession ||
+        !currentSession.namespaces
+    ) {
+
+        return null;
+
+    }
+
+    const solanaNamespace =
+        currentSession.namespaces.solana;
+
+    if (
+        !solanaNamespace ||
+        !solanaNamespace.accounts ||
+        !solanaNamespace.accounts.length
+    ) {
+
+        return null;
+
+    }
+
+    const account =
+        solanaNamespace.accounts[0];
+
+    if (!account) {
+
+        return null;
+
+    }
+
+    const parts =
+        account.split(":");
+
+    if (parts.length >= 3) {
+
+        return parts[2];
+
+    }
+
+    return null;
+
+}
+
+
+// =========================================================
+// SAVE CONNECTED WALLET
+// =========================================================
+
+function setConnectedWallet(
+    address,
+    type,
+    currentSession
+) {
+
+    connected =
+        true;
+
+    publicAddress =
+        address;
+
+    walletType =
+        type;
+
+    session =
+        currentSession || null;
+
+
+    // =====================================================
+    // SAVE WALLET STATE
+    // =====================================================
+
+    localStorage.setItem(
+        ADDRESS_KEY,
+        address
+    );
+
+    localStorage.setItem(
+        WALLET_TYPE_KEY,
+        type
+    );
+
+
+    // =====================================================
+    // UPDATE WALLETS SCREEN
+    // =====================================================
+
+    const noWalletConnected =
+        document.getElementById(
+            "no-wallet-connected"
+        );
+
+    const savedWalletCard =
+        document.getElementById(
+            "saved-wallet-card"
+        );
+
+    const savedWalletProvider =
+        document.getElementById(
+            "saved-wallet-provider"
+        );
+
+    const savedWalletNetwork =
+        document.getElementById(
+            "saved-wallet-network"
+        );
+
+    const savedWalletAddress =
+        document.getElementById(
+            "saved-wallet-address"
+        );
+
+
+    if (noWalletConnected) {
+
+        noWalletConnected.style.display =
+            "none";
+
+    }
+
+
+    if (savedWalletCard) {
+
+        savedWalletCard.style.display =
+            "block";
+
+    }
+
+
+    if (savedWalletProvider) {
+
+        savedWalletProvider.textContent =
+            type === "trust-wallet"
+                ? "Trust Wallet"
+                : "External Wallet";
+
+    }
+
+
+    if (savedWalletNetwork) {
+
+        savedWalletNetwork.textContent =
+            "SOLANA";
+
+    }
+
+
+    if (savedWalletAddress) {
+
+        savedWalletAddress.textContent =
+            formatWalletAddress(
+                address
+            );
+
+        savedWalletAddress.dataset.fullAddress =
+            address;
+
+    }
+
+}
+
+
+// =========================================================
+// CLEAR LOCAL WALLET STATE
+// =========================================================
+
+function clearWalletState() {
+
+    connected =
+        false;
+
+    publicAddress =
+        null;
+
+    walletType =
+        null;
+
+    session =
+        null;
+
+
+    localStorage.removeItem(
+        ADDRESS_KEY
+    );
+
+    localStorage.removeItem(
+        WALLET_TYPE_KEY
+    );
+
+
+    const noWalletConnected =
+        document.getElementById(
+            "no-wallet-connected"
+        );
+
+    const savedWalletCard =
+        document.getElementById(
+            "saved-wallet-card"
+        );
+
+
+    if (noWalletConnected) {
+
+        noWalletConnected.style.display =
+            "block";
+
+    }
+
+
+    if (savedWalletCard) {
+
+        savedWalletCard.style.display =
+            "none";
+
+    }
+
+}
+
+
+// =========================================================
+// SHOW CONNECTED WALLET SCREEN
+// =========================================================
+
+function showConnectedWallet(
+    address
+) {
+
+    const addressElement =
+        document.getElementById(
+            "connected-wallet-address"
+        );
+
+    const providerElement =
+        document.getElementById(
+            "connected-wallet-provider"
+        );
+
+
+    if (providerElement) {
+
+        providerElement.textContent =
+            walletType === "trust-wallet"
+                ? "Trust Wallet"
+                : "External Wallet";
+
+    }
+
+
+    if (addressElement) {
+
+        addressElement.textContent =
+            address;
+
+    }
+
+
+    const walletScreen =
+        document.getElementById(
+            "wallet-connected-screen"
+        );
+
+
+    if (
+        walletScreen &&
+        typeof showScreen ===
+            "function"
+    ) {
+
+        showScreen(
+            walletScreen
+        );
+
+    }
+
+}
+
+
+// =========================================================
+// CONNECT WALLET
+// =========================================================
+
+async function connect() {
+
+    console.log(
+        "VYRO: Starting wallet connection..."
+    );
+
+
+    // =====================================================
+    // TRUST WALLET INJECTED PROVIDER
+    // =====================================================
+
+    if (
+        window.trustwallet &&
+        window.trustwallet.solana
+    ) {
+
+        try {
+
+            console.log(
+                "VYRO: Trust Wallet provider detected."
+            );
+
+
+            const trustWallet =
+                window.trustwallet.solana;
+
+
+            const connectFeature =
+                trustWallet.features &&
+                trustWallet.features[
+                    "standard:connect"
+                ];
+
+
+            if (
+                connectFeature &&
+                typeof connectFeature.connect ===
+                    "function"
+            ) {
+
+                const result =
+                    await connectFeature.connect();
+
+
+                const accounts =
+                    result &&
+                    result.accounts;
+
+
+                if (
+                    accounts &&
+                    accounts.length
+                ) {
+
+                    const address =
+                        accounts[0].address;
+
+
+                    if (address) {
+
+                        setConnectedWallet(
+                            address,
+                            "trust-wallet",
+                            null
+                        );
+
+
+                        showConnectedWallet(
+                            address
+                        );
+
+
+                        console.log(
+                            "VYRO: Trust Wallet connected."
+                        );
+
+
+                        return address;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "VYRO: Trust Wallet connection error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    // =====================================================
+    // WALLETCONNECT FALLBACK
+    // =====================================================
+
+    try {
+
+        console.log(
+            "VYRO: Starting WalletConnect..."
+        );
+
+
+        if (
+            typeof SignClient ===
+                "undefined"
+        ) {
+
+            throw new Error(
+                "WalletConnect SignClient is not available."
+            );
+
+        }
+
+
+        signClient =
+            await SignClient.init({
+
+                projectId:
+                    WALLETCONNECT_PROJECT_ID,
+
+                metadata: {
+
+                    name:
+                        "VYRO",
+
+                    description:
+                        "VYRO crypto payments",
+
+                    url:
+                        window.location.origin,
+
+                    icons: []
+
+                }
+
+            });
+
+
+        const connection =
+            await signClient.connect({
+
+                requiredNamespaces: {
+
+                    solana: {
+
+                        chains: [
+
+                            "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
+
+                        ],
+
+                        methods: [
+
+                            "solana_signTransaction",
+
+                            "solana_signMessage"
+
+                        ],
+
+                        events: []
+
+                    }
+
+                }
+
+            });
+
+
+        const uri =
+            connection &&
+            connection.uri;
+
+
+        if (!uri) {
+
+            throw new Error(
+                "WalletConnect did not return a URI."
+            );
+
+        }
+
+
+        console.log(
+            "VYRO: WalletConnect URI created."
+        );
+
+
+        const trustWalletUrl =
+            "https://link.trustwallet.com/wc?uri=" +
+            encodeURIComponent(uri);
+
+
+        window.open(
+            trustWalletUrl,
+            "_blank",
+            "noreferrer noopener"
+        );
+
+
+        const approvedSession =
+            await connection.approval();
+
+
+        if (!approvedSession) {
+
+            throw new Error(
+                "Wallet connection was not approved."
+            );
+
+        }
+
+
+        session =
+            approvedSession;
+
+
+        const address =
+            getAddressFromSession(
+                approvedSession
+            );
+
+
+        if (!address) {
+
+            throw new Error(
+                "Could not find Solana wallet address."
+            );
+
+        }
+
+
+        setConnectedWallet(
+            address,
+            "walletconnect",
+            approvedSession
+        );
+
+
+        showConnectedWallet(
+            address
+        );
+
+
+        console.log(
+            "VYRO: WalletConnect wallet connected."
+        );
+
+
+        return address;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "VYRO: WalletConnect connection error:",
+            error
+        );
+
+        throw error;
+
+    }
+
+}
+
+
+// =========================================================
+// DISCONNECT WALLET
+// =========================================================
+
+async function disconnect() {
+
+    try {
+
+        if (
+            signClient &&
+            session
+        ) {
+
+            try {
+
+                await signClient.disconnect({
+
+                    topic:
+                        session.topic,
+
+                    reason: {
+
+                        code:
+                            6000,
+
+                        message:
+                            "User disconnected wallet."
+
+                    }
+
+                });
+
+            }
+
+            catch (error) {
+
+                console.log(
+                    "VYRO: WalletConnect disconnect notice:",
+                    error
+                );
+
+            }
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "VYRO: Disconnect error:",
+            error
+        );
+
+    }
+
+
+    clearWalletState();
+
+
+    return true;
+
+}
+
+
+// =========================================================
+// RESTORE WALLET CONNECTION
+// =========================================================
+
+async function restoreConnection() {
+
+    // =====================================================
+    // TRY TRUST WALLET SILENT RESTORE
+    // =====================================================
+
+    if (
+        window.trustwallet &&
+        window.trustwallet.solana
+    ) {
+
+        try {
+
+            const trustWallet =
+                window.trustwallet.solana;
+
+
+            const connectFeature =
+                trustWallet.features &&
+                trustWallet.features[
+                    "standard:connect"
+                ];
+
+
+            if (
+                connectFeature &&
+                typeof connectFeature.connect ===
+                    "function"
+            ) {
+
+                const result =
+                    await connectFeature.connect({
+                        silent: true
+                    });
+
+
+                const accounts =
+                    result &&
+                    result.accounts;
+
+
+                if (
+                    accounts &&
+                    accounts.length
+                ) {
+
+                    const address =
+                        accounts[0].address;
+
+
+                    if (address) {
+
+                        setConnectedWallet(
+                            address,
+                            "trust-wallet",
+                            null
+                        );
+
+
+                        console.log(
+                            "VYRO: Saved Trust Wallet restored."
+                        );
+
+
+                        return address;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.log(
+                "VYRO: No silent Trust Wallet connection available."
+            );
+
+        }
+
+    }
+
+
+    // =====================================================
+    // RESTORE FROM LOCAL STORAGE
+    // =====================================================
+
+    const savedAddress =
+        localStorage.getItem(
+            ADDRESS_KEY
+        );
+
+
+    const savedWalletType =
+        localStorage.getItem(
+            WALLET_TYPE_KEY
+        );
+
+
+    if (
+        savedAddress &&
+        savedWalletType
+    ) {
+
+        publicAddress =
+            savedAddress;
+
+        walletType =
+            savedWalletType;
+
+        connected =
+            true;
+
+
+        // =================================================
+        // UPDATE WALLETS SCREEN
+        // =================================================
+
+        const noWalletConnected =
+            document.getElementById(
+                "no-wallet-connected"
+            );
+
+
+        const savedWalletCard =
+            document.getElementById(
+                "saved-wallet-card"
+            );
+
+
+        const savedWalletProvider =
+            document.getElementById(
+                "saved-wallet-provider"
+            );
+
+
+        const savedWalletNetwork =
+            document.getElementById(
+                "saved-wallet-network"
+            );
+
+
+        const savedWalletAddress =
+            document.getElementById(
+                "saved-wallet-address"
+            );
+
+
+        if (noWalletConnected) {
+
+            noWalletConnected.style.display =
+                "none";
+
+        }
+
+
+        if (savedWalletCard) {
+
+            savedWalletCard.style.display =
+                "block";
+
+        }
+
+
+        if (savedWalletProvider) {
+
+            savedWalletProvider.textContent =
+                savedWalletType ===
+                    "trust-wallet"
+                    ? "Trust Wallet"
+                    : "External Wallet";
+
+        }
+
+
+        if (savedWalletNetwork) {
+
+            savedWalletNetwork.textContent =
+                "SOLANA";
+
+        }
+
+
+        if (savedWalletAddress) {
+
+            savedWalletAddress.textContent =
+                formatWalletAddress(
+                    savedAddress
+                );
+
+            savedWalletAddress.dataset.fullAddress =
+                savedAddress;
+
+        }
+
+
+        console.log(
+            "VYRO: Saved wallet restored."
+        );
+
+
+        return savedAddress;
+
+    }
+
+
+    return null;
+
+}
+
+
+// =========================================================
+// COPY WALLET ADDRESS
+// =========================================================
+
+function copyWalletAddress() {
+
+    const addressElement =
+        document.getElementById(
+            "saved-wallet-address"
+        );
+
+
+    if (
+        !addressElement ||
+        !addressElement.dataset.fullAddress
+    ) {
+
+        return;
+
+    }
+
+
+    const fullAddress =
+        addressElement.dataset.fullAddress;
+
+
+    if (
+        navigator.clipboard &&
+        navigator.clipboard.writeText
+    ) {
+
+        navigator.clipboard.writeText(
+            fullAddress
+        ).then(function () {
+
+            const button =
+                document.getElementById(
+                    "copy-wallet-address-btn"
+                );
+
+
+            if (button) {
+
+                button.textContent =
+                    "COPIED";
+
+
+                setTimeout(
+                    function () {
+
+                        button.textContent =
+                            "COPY ADDRESS";
+
+                    },
+                    1500
+                );
+
+            }
+
+        });
+
+    }
+
+}
+
+
+// =========================================================
+// INITIALIZE VYRO WALLET SYSTEM
+// =========================================================
+
+async function init() {
+
+    if (initialized) {
+
+        return;
+
+    }
+
+
+    initialized =
+        true;
+
+
+    console.log(
+        "VYRO: Wallet system initializing..."
+    );
+
+
+    // =====================================================
+    // RESTORE SAVED WALLET
+    // =====================================================
+
+    await restoreConnection();
+
+
+    // =====================================================
+    // CONNECT WALLET BUTTON
+    // =====================================================
+
+    const connectWalletButton =
+        document.getElementById(
+            "phantom-wallet-btn"
+        );
+
+
+    if (connectWalletButton) {
+
+        connectWalletButton.addEventListener(
+            "click",
+            async function () {
+
+                try {
+
+                    await connect();
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "VYRO: Wallet connection failed:",
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // DISCONNECT WALLET BUTTON
+    // =====================================================
+
+    const disconnectWalletButton =
+        document.getElementById(
+            "disconnect-wallet-btn"
+        );
+
+
+    if (disconnectWalletButton) {
+
+        disconnectWalletButton.addEventListener(
+            "click",
+            async function () {
+
+                await disconnect();
+
+
+                const walletsScreen =
+                    document.getElementById(
+                        "wallets-screen"
+                    );
+
+
+                if (
+                    walletsScreen &&
+                    typeof showScreen ===
+                        "function"
+                ) {
+
+                    showScreen(
+                        walletsScreen
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // COPY ADDRESS BUTTON
+    // =====================================================
+
+    const copyWalletAddressButton =
+        document.getElementById(
+            "copy-wallet-address-btn"
+        );
+
+
+    if (copyWalletAddressButton) {
+
+        copyWalletAddressButton.addEventListener(
+            "click",
+            copyWalletAddress
+        );
+
+    }
+
+
+    console.log(
+        "VYRO: Wallet system initialized."
+    );
+
+}
+
+
+// =========================================================
+// PUBLIC VYRO WALLET API
+// =========================================================
+
+window.VYROWallet = {
+
+    init:
+        init,
+
+    connect:
+        connect,
+
+    disconnect:
+        disconnect,
+
+    restoreConnection:
+        restoreConnection,
+
+    getAddress:
+        function () {
+
+            return publicAddress;
+
+        },
+
+    isConnected:
+        function () {
+
+            return connected;
+
+        },
+
+    getWalletType:
+        function () {
+
+            return walletType;
+
+        }
+
 };
 
+
 // =========================================================
-// INITIALIZE FIREBASE
+// START WALLET SYSTEM
 // =========================================================
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+if (
+    document.readyState ===
+    "loading"
+) {
 
-// Firebase services
-const firebaseAuth = firebase.auth();
-const firebaseDB = firebase.firestore();
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            VYROWallet.init();
+
+        }
+    );
+
+} else {
+
+    VYROWallet.init();
+
+}
