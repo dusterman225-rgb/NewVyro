@@ -1881,6 +1881,63 @@ if (connectWalletButton) {
 
 }
 
+// =========================================================
+// CONNECT EXTERNAL WALLET
+// =========================================================
+
+const externalWalletButton =
+    document.getElementById(
+        "phantom-wallet-btn"
+    );
+
+if (externalWalletButton) {
+
+    externalWalletButton.addEventListener(
+        "click",
+        async function () {
+
+            console.log(
+                "VYRO: CONNECT EXTERNAL WALLET clicked."
+            );
+
+            try {
+
+                if (
+                    typeof VYROWallet ===
+                        "undefined"
+                ) {
+
+                    throw new Error(
+                        "VYRO wallet system is not available."
+                    );
+
+                }
+
+                await VYROWallet.connect();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "VYRO: External wallet connection failed:",
+                    error
+                );
+
+                alert(
+                    error &&
+                    error.message
+                        ? error.message
+                        : "Could not connect your external wallet."
+                );
+
+            }
+
+        }
+    );
+
+}
+
 
 const connectWalletBackButton =
     document.getElementById(
