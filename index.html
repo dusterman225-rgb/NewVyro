@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -9,2343 +11,2171 @@
     >
 
     <meta
-        name="description"
-        content="VYRO — Send and receive crypto using a username."
+        name="theme-color"
+        content="#050505"
     >
 
-    <meta name="theme-color" content="#050505">
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
 
-    <title>VYRO — Crypto. Simple.</title>
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
 
-    <!--
-        VYRO
-        ---------------------------------------------------------
-        Main application shell.
+    <title>VYRO</title>
 
-        IMPORTANT:
-        - No inline JavaScript.
-        - No old VYRO dependencies.
-        - JavaScript will be added later.
-        - CSS will be added later.
-        - Screen IDs are intentionally stable.
-    -->
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <!-- =======================================================
-         APPLICATION
-         ======================================================= -->
+<main id="app">
 
-    <div id="vyro-app">
 
-        <!-- ===================================================
-             GLOBAL HEADER
-             =================================================== -->
+<!-- =========================================================
+     WELCOME
+     ========================================================= -->
 
-        <header id="global-header" class="global-header">
+<section id="welcome-screen" class="screen active">
 
-            <button
-                id="global-back-btn"
-                class="header-back-btn"
-                type="button"
-                aria-label="Go back"
-                hidden
-            >
-                <span aria-hidden="true">‹</span>
-                <span>Back</span>
-            </button>
+    <div class="logo">
+        VYRO
+    </div>
 
-            <button
-                id="global-home-btn"
-                class="header-logo-btn"
-                type="button"
-                aria-label="Go to VYRO home"
-            >
-                <span class="vyro-mark">VYRO</span>
-            </button>
+    <div class="welcome-content">
 
-        </header>
+        <h1>
+            Crypto.<br>
+            Simple.
+        </h1>
 
+        <p>
+            Send and receive crypto using a username.
+        </p>
 
-        <!-- ===================================================
-             MAIN CONTENT
-             =================================================== -->
-
-        <main id="app" class="app-main">
-
-
-            <!-- =================================================
-                 WELCOME
-                 ================================================= -->
-
-            <section
-                id="welcome-screen"
-                class="screen active"
-                data-screen="welcome"
-                aria-labelledby="welcome-title"
-            >
-
-                <div class="welcome-content">
-
-                    <div class="brand-lockup">
-                        <div class="brand-name">VYRO</div>
-                        <div class="brand-line"></div>
-                    </div>
-
-                    <div class="welcome-copy">
-
-                        <p class="eyebrow">NON-CUSTODIAL CRYPTO</p>
-
-                        <h1 id="welcome-title">
-                            Crypto.<br>
-                            <span>Simple.</span>
-                        </h1>
-
-                        <p class="welcome-subtitle">
-                            Send and receive crypto using a username.
-                        </p>
-
-                    </div>
-
-                    <div class="welcome-actions">
-
-                        <button
-                            id="welcome-get-started-btn"
-                            class="primary-btn"
-                            type="button"
-                            data-action="show-create-account"
-                        >
-                            Get Started
-                        </button>
-
-                        <button
-                            id="welcome-login-btn"
-                            class="secondary-btn"
-                            type="button"
-                            data-action="show-login"
-                        >
-                            Log In
-                        </button>
-
-                    </div>
-
-                </div>
-
-                <footer class="welcome-footer">
-                    <span>NON-CUSTODIAL</span>
-                    <span aria-hidden="true">•</span>
-                    <span>VYRO</span>
-                </footer>
-
-            </section>
-
-
-            <!-- =================================================
-                 CREATE ACCOUNT
-                 ================================================= -->
-
-            <section
-                id="create-account-screen"
-                class="screen"
-                data-screen="create-account"
-                aria-labelledby="create-account-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">WELCOME TO VYRO</p>
-
-                        <h1 id="create-account-title">
-                            Create your account
-                        </h1>
-
-                        <p>
-                            Choose a username people can use to send you crypto.
-                        </p>
-
-                    </div>
-
-
-                    <form
-                        id="create-account-form"
-                        class="vyro-form"
-                        novalidate
-                    >
-
-                        <div class="form-group">
-
-                            <label for="signup-username">
-                                Username
-                            </label>
-
-                            <div class="input-prefix-wrapper">
-
-                                <span
-                                    class="input-prefix"
-                                    aria-hidden="true"
-                                >
-                                    @
-                                </span>
-
-                                <input
-                                    id="signup-username"
-                                    name="username"
-                                    type="text"
-                                    inputmode="text"
-                                    autocomplete="username"
-                                    autocapitalize="none"
-                                    spellcheck="false"
-                                    maxlength="20"
-                                    placeholder="username"
-                                    required
-                                >
-
-                            </div>
-
-                            <p
-                                id="signup-username-status"
-                                class="field-status"
-                                aria-live="polite"
-                            ></p>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="signup-email">
-                                Email
-                            </label>
-
-                            <input
-                                id="signup-email"
-                                name="email"
-                                type="email"
-                                inputmode="email"
-                                autocomplete="email"
-                                placeholder="you@example.com"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="signup-password">
-                                Password
-                            </label>
-
-                            <input
-                                id="signup-password"
-                                name="password"
-                                type="password"
-                                autocomplete="new-password"
-                                minlength="8"
-                                placeholder="Create a password"
-                                required
-                            >
-
-                            <p class="field-help">
-                                Use at least 8 characters.
-                            </p>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="signup-confirm-password">
-                                Confirm password
-                            </label>
-
-                            <input
-                                id="signup-confirm-password"
-                                name="confirmPassword"
-                                type="password"
-                                autocomplete="new-password"
-                                minlength="8"
-                                placeholder="Enter your password again"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="signup-recognition-word">
-                                Recognition word
-                            </label>
-
-                            <input
-                                id="signup-recognition-word"
-                                name="recognitionWord"
-                                type="text"
-                                maxlength="24"
-                                placeholder="A word you'll recognize"
-                                required
-                            >
-
-                            <p class="field-help">
-                                This helps you recognize the correct recipient.
-                            </p>
-
-                        </div>
-
-
-                        <label class="checkbox-row">
-
-                            <input
-                                id="signup-terms"
-                                name="terms"
-                                type="checkbox"
-                                required
-                            >
-
-                            <span>
-                                I agree to the VYRO Terms of Service and Privacy Policy.
-                            </span>
-
-                        </label>
-
-
-                        <button
-                            id="create-account-submit-btn"
-                            class="primary-btn"
-                            type="submit"
-                        >
-                            Create Account
-                        </button>
-
-                    </form>
-
-                    <div class="form-switch">
-
-                        <span>Already have an account?</span>
-
-                        <button
-                            id="create-account-login-btn"
-                            class="text-btn"
-                            type="button"
-                            data-action="show-login"
-                        >
-                            Log In
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 LOGIN
-                 ================================================= -->
-
-            <section
-                id="login-screen"
-                class="screen"
-                data-screen="login"
-                aria-labelledby="login-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">WELCOME BACK</p>
-
-                        <h1 id="login-title">
-                            Log in to VYRO
-                        </h1>
-
-                        <p>
-                            Access your account and connected wallets.
-                        </p>
-
-                    </div>
-
-
-                    <form
-                        id="login-form"
-                        class="vyro-form"
-                        novalidate
-                    >
-
-                        <div class="form-group">
-
-                            <label for="login-email">
-                                Email
-                            </label>
-
-                            <input
-                                id="login-email"
-                                name="email"
-                                type="email"
-                                inputmode="email"
-                                autocomplete="email"
-                                placeholder="you@example.com"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="login-password">
-                                Password
-                            </label>
-
-                            <input
-                                id="login-password"
-                                name="password"
-                                type="password"
-                                autocomplete="current-password"
-                                placeholder="Your password"
-                                required
-                            >
-
-                        </div>
-
-
-                        <button
-                            id="login-submit-btn"
-                            class="primary-btn"
-                            type="submit"
-                        >
-                            Log In
-                        </button>
-
-                    </form>
-
-
-                    <button
-                        id="forgot-password-btn"
-                        class="text-btn centered-btn"
-                        type="button"
-                    >
-                        Forgot password?
-                    </button>
-
-
-                    <div class="form-switch">
-
-                        <span>Don't have an account?</span>
-
-                        <button
-                            id="login-create-account-btn"
-                            class="text-btn"
-                            type="button"
-                            data-action="show-create-account"
-                        >
-                            Create Account
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 EMAIL VERIFICATION
-                 ================================================= -->
-
-            <section
-                id="email-verification-screen"
-                class="screen"
-                data-screen="email-verification"
-                aria-labelledby="email-verification-title"
-                hidden
-            >
-
-                <div class="screen-container centered-screen">
-
-                    <div class="status-icon" aria-hidden="true">
-                        @
-                    </div>
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">VERIFY YOUR EMAIL</p>
-
-                        <h1 id="email-verification-title">
-                            Check your inbox
-                        </h1>
-
-                        <p>
-                            We've sent a verification email to
-                            <strong id="verification-email-display">
-                                your email address
-                            </strong>.
-                        </p>
-
-                    </div>
-
-
-                    <button
-                        id="email-verification-check-btn"
-                        class="primary-btn"
-                        type="button"
-                    >
-                        I've Verified My Email
-                    </button>
-
-
-                    <button
-                        id="email-verification-resend-btn"
-                        class="secondary-btn"
-                        type="button"
-                    >
-                        Resend Email
-                    </button>
-
-
-                    <p
-                        id="email-verification-status"
-                        class="screen-status"
-                        aria-live="polite"
-                    ></p>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 TWO-FACTOR AUTHENTICATION
-                 ================================================= -->
-
-            <section
-                id="two-factor-screen"
-                class="screen"
-                data-screen="two-factor"
-                aria-labelledby="two-factor-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">ACCOUNT SECURITY</p>
-
-                        <h1 id="two-factor-title">
-                            Two-factor authentication
-                        </h1>
-
-                        <p>
-                            Enter the security code to continue.
-                        </p>
-
-                    </div>
-
-
-                    <form
-                        id="two-factor-form"
-                        class="vyro-form"
-                        novalidate
-                    >
-
-                        <div class="form-group">
-
-                            <label for="two-factor-code">
-                                Security code
-                            </label>
-
-                            <input
-                                id="two-factor-code"
-                                name="code"
-                                type="text"
-                                inputmode="numeric"
-                                autocomplete="one-time-code"
-                                maxlength="6"
-                                pattern="[0-9]{6}"
-                                placeholder="000000"
-                                required
-                            >
-
-                        </div>
-
-
-                        <button
-                            id="two-factor-submit-btn"
-                            class="primary-btn"
-                            type="submit"
-                        >
-                            Verify Code
-                        </button>
-
-                    </form>
-
-
-                    <p
-                        id="two-factor-status"
-                        class="screen-status"
-                        aria-live="polite"
-                    ></p>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 TWO-FACTOR COMPLETE
-                 ================================================= -->
-
-            <section
-                id="two-factor-complete-screen"
-                class="screen"
-                data-screen="two-factor-complete"
-                aria-labelledby="two-factor-complete-title"
-                hidden
-            >
-
-                <div class="screen-container centered-screen">
-
-                    <div
-                        class="success-icon"
-                        aria-hidden="true"
-                    >
-                        ✓
-                    </div>
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">SECURITY COMPLETE</p>
-
-                        <h1 id="two-factor-complete-title">
-                            You're protected
-                        </h1>
-
-                        <p>
-                            Two-factor authentication has been completed.
-                        </p>
-
-                    </div>
-
-
-                    <button
-                        id="two-factor-complete-btn"
-                        class="primary-btn"
-                        type="button"
-                    >
-                        Continue to VYRO
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 HOME / DASHBOARD
-                 ================================================= -->
-
-            <section
-                id="home-screen"
-                class="screen app-screen"
-                data-screen="home"
-                aria-labelledby="home-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="dashboard-header">
-
-                        <div>
-
-                            <p class="eyebrow">
-                                AVAILABLE BALANCE
-                            </p>
-
-                            <h1 id="home-title">
-                                $<span id="home-balance">0.00</span>
-                            </h1>
-
-                            <p
-                                id="home-balance-asset"
-                                class="balance-asset"
-                            >
-                                USDC
-                            </p>
-
-                        </div>
-
-                        <div class="user-badge">
-
-                            <span
-                                id="home-username"
-                                class="user-badge-username"
-                            >
-                                @username
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Quick actions -->
-
-                    <div class="quick-actions">
-
-                        <button
-                            id="home-send-btn"
-                            class="action-card primary-action"
-                            type="button"
-                            data-action="show-send"
-                        >
-                            <span
-                                class="action-icon"
-                                aria-hidden="true"
-                            >
-                                ↑
-                            </span>
-
-                            <span>Send</span>
-                        </button>
-
-
-                        <button
-                            id="home-receive-btn"
-                            class="action-card"
-                            type="button"
-                            data-action="show-receive"
-                        >
-                            <span
-                                class="action-icon"
-                                aria-hidden="true"
-                            >
-                                ↓
-                            </span>
-
-                            <span>Receive</span>
-                        </button>
-
-                    </div>
-
-
-                    <!-- Wallet summary -->
-
-                    <div class="section-block">
-
-                        <div class="section-heading-row">
-
-                            <h2>Wallet</h2>
-
-                            <button
-                                id="home-wallets-btn"
-                                class="text-btn"
-                                type="button"
-                                data-action="show-wallets"
-                            >
-                                Manage
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            id="home-wallet-card"
-                            class="wallet-summary-card"
-                        >
-
-                            <div class="wallet-summary-icon">
-                                W
-                            </div>
-
-                            <div class="wallet-summary-info">
-
-                                <strong id="home-wallet-name">
-                                    No wallet connected
-                                </strong>
-
-                                <span id="home-wallet-address">
-                                    Connect an external wallet
-                                </span>
-
-                            </div>
-
-                            <span
-                                id="home-wallet-status"
-                                class="wallet-status"
-                            >
-                                Not connected
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Recent activity -->
-
-                    <div class="section-block">
-
-                        <div class="section-heading-row">
-
-                            <h2>Recent Activity</h2>
-
-                            <button
-                                id="home-view-all-btn"
-                                class="text-btn"
-                                type="button"
-                                data-action="show-activity"
-                            >
-                                View All
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            id="home-activity-list"
-                            class="activity-list"
-                        >
-
-                            <div
-                                id="home-empty-activity"
-                                class="empty-state"
-                            >
-
-                                <div class="empty-state-icon">
-                                    —
-                                </div>
-
-                                <strong>No transactions yet</strong>
-
-                                <p>
-                                    Your VYRO activity will appear here.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 SEND
-                 ================================================= -->
-
-            <section
-                id="send-screen"
-                class="screen app-screen"
-                data-screen="send"
-                aria-labelledby="send-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">SEND CRYPTO</p>
-
-                        <h1 id="send-title">
-                            Send crypto
-                        </h1>
-
-                        <p>
-                            Send crypto to another VYRO user.
-                        </p>
-
-                    </div>
-
-
-                    <form
-                        id="send-form"
-                        class="vyro-form"
-                        novalidate
-                    >
-
-                        <div class="form-group">
-
-                            <label for="send-recipient">
-                                Recipient
-                            </label>
-
-                            <div class="input-prefix-wrapper">
-
-                                <span
-                                    class="input-prefix"
-                                    aria-hidden="true"
-                                >
-                                    @
-                                </span>
-
-                                <input
-                                    id="send-recipient"
-                                    name="recipient"
-                                    type="text"
-                                    inputmode="text"
-                                    autocapitalize="none"
-                                    autocomplete="off"
-                                    spellcheck="false"
-                                    maxlength="20"
-                                    placeholder="username"
-                                    required
-                                >
-
-                            </div>
-
-                            <p
-                                id="send-recipient-status"
-                                class="field-status"
-                                aria-live="polite"
-                            ></p>
-
-                        </div>
-
-
-                        <div
-                            id="send-recipient-confirmation"
-                            class="recipient-confirmation"
-                            hidden
-                        >
-
-                            <div class="recipient-avatar">
-                                @
-                            </div>
-
-                            <div>
-
-                                <strong id="send-recipient-username">
-                                    @username
-                                </strong>
-
-                                <span id="send-recipient-word">
-                                    recognition word
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="send-amount">
-                                Amount
-                            </label>
-
-                            <div class="amount-input-wrapper">
-
-                                <span class="currency-prefix">
-                                    $
-                                </span>
-
-                                <input
-                                    id="send-amount"
-                                    name="amount"
-                                    type="number"
-                                    inputmode="decimal"
-                                    min="0"
-                                    step="0.01"
-                                    placeholder="0.00"
-                                    required
-                                >
-
-                                <span class="asset-suffix">
-                                    USDC
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="send-asset">
-                                Asset
-                            </label>
-
-                            <select
-                                id="send-asset"
-                                name="asset"
-                                required
-                            >
-                                <option value="usdc">
-                                    USDC
-                                </option>
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="send-network">
-                                Network
-                            </label>
-
-                            <select
-                                id="send-network"
-                                name="network"
-                                required
-                            >
-                                <option value="solana">
-                                    Solana
-                                </option>
-                            </select>
-
-                        </div>
-
-
-                        <div
-                            id="send-balance-warning"
-                            class="form-warning"
-                            hidden
-                        ></div>
-
-
-                        <button
-                            id="send-review-btn"
-                            class="primary-btn"
-                            type="submit"
-                        >
-                            Review Transfer
-                        </button>
-
-                    </form>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 SEND REVIEW
-                 ================================================= -->
-
-            <section
-                id="send-review-screen"
-                class="screen app-screen"
-                data-screen="send-review"
-                aria-labelledby="send-review-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">CONFIRM TRANSFER</p>
-
-                        <h1 id="send-review-title">
-                            Review transfer
-                        </h1>
-
-                        <p>
-                            Check the details before continuing.
-                        </p>
-
-                    </div>
-
-
-                    <div class="transfer-review-card">
-
-                        <div class="review-recipient">
-
-                            <span class="review-label">
-                                Sending to
-                            </span>
-
-                            <strong id="review-recipient-username">
-                                @username
-                            </strong>
-
-                            <span id="review-recipient-word">
-                                recognition word
-                            </span>
-
-                        </div>
-
-
-                        <div class="review-amount">
-
-                            <span class="review-label">
-                                Amount
-                            </span>
-
-                            <strong>
-                                $<span id="review-amount">0.00</span>
-                            </strong>
-
-                            <span id="review-asset">
-                                USDC
-                            </span>
-
-                        </div>
-
-
-                        <div class="review-row">
-
-                            <span>Network</span>
-
-                            <strong id="review-network">
-                                Solana
-                            </strong>
-
-                        </div>
-
-
-                        <div class="review-row">
-
-                            <span>Estimated network fee</span>
-
-                            <strong id="review-fee">
-                                — 
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <button
-                        id="confirm-send-btn"
-                        class="primary-btn"
-                        type="button"
-                    >
-                        Confirm &amp; Continue
-                    </button>
-
-
-                    <button
-                        id="edit-send-btn"
-                        class="secondary-btn"
-                        type="button"
-                    >
-                        Edit Transfer
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 RECEIVE
-                 ================================================= -->
-
-            <section
-                id="receive-screen"
-                class="screen app-screen"
-                data-screen="receive"
-                aria-labelledby="receive-title"
-                hidden
-            >
-
-                <div class="screen-container centered-screen">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">RECEIVE CRYPTO</p>
-
-                        <h1 id="receive-title">
-                            Receive with VYRO
-                        </h1>
-
-                        <p>
-                            Give someone your username to receive crypto.
-                        </p>
-
-                    </div>
-
-
-                    <div class="receive-username-card">
-
-                        <span class="receive-label">
-                            Your VYRO username
-                        </span>
-
-                        <strong id="receive-username">
-                            @username
-                        </strong>
-
-                        <button
-                            id="copy-username-btn"
-                            class="secondary-btn"
-                            type="button"
-                        >
-                            Copy Username
-                        </button>
-
-                    </div>
-
-
-                    <p
-                        id="receive-copy-status"
-                        class="screen-status"
-                        aria-live="polite"
-                    ></p>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 WALLETS
-                 ================================================= -->
-
-            <section
-                id="wallets-screen"
-                class="screen app-screen"
-                data-screen="wallets"
-                aria-labelledby="wallets-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">EXTERNAL WALLETS</p>
-
-                        <h1 id="wallets-title">
-                            Your wallets
-                        </h1>
-
-                        <p>
-                            VYRO connects to external wallets. Your private keys stay with you.
-                        </p>
-
-                    </div>
-
-
-                    <div
-                        id="wallet-list"
-                        class="wallet-list"
-                    >
-
-                        <div
-                            id="wallet-list-empty"
-                            class="empty-state"
-                        >
-
-                            <div class="empty-state-icon">
-                                W
-                            </div>
-
-                            <strong>No wallets connected</strong>
-
-                            <p>
-                                Connect an external wallet to get started.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <button
-                        id="connect-wallet-btn"
-                        class="primary-btn"
-                        type="button"
-                        data-action="show-connect-wallet"
-                    >
-                        Connect Wallet
-                    </button>
-
-
-                    <p
-                        id="wallets-status"
-                        class="screen-status"
-                        aria-live="polite"
-                    ></p>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 CONNECT WALLET
-                 ================================================= -->
-
-            <section
-                id="connect-wallet-screen"
-                class="screen app-screen"
-                data-screen="connect-wallet"
-                aria-labelledby="connect-wallet-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">CONNECT WALLET</p>
-
-                        <h1 id="connect-wallet-title">
-                            Choose your wallet
-                        </h1>
-
-                        <p>
-                            Connect an external Solana wallet to VYRO.
-                        </p>
-
-                    </div>
-
-
-                    <div class="wallet-provider-list">
-
-                        <button
-                            id="phantom-wallet-btn"
-                            class="wallet-provider-btn"
-                            type="button"
-                            data-wallet-provider="phantom"
-                        >
-
-                            <span class="provider-icon">
-                                P
-                            </span>
-
-                            <span class="provider-info">
-
-                                <strong>
-                                    Phantom
-                                </strong>
-
-                                <span>
-                                    Solana wallet
-                                </span>
-
-                            </span>
-
-                            <span
-                                class="provider-arrow"
-                                aria-hidden="true"
-                            >
-                                ›
-                            </span>
-
-                        </button>
-
-
-                        <button
-                            id="trust-wallet-btn"
-                            class="wallet-provider-btn"
-                            type="button"
-                            data-wallet-provider="trust"
-                        >
-
-                            <span class="provider-icon">
-                                T
-                            </span>
-
-                            <span class="provider-info">
-
-                                <strong>
-                                    Trust Wallet
-                                </strong>
-
-                                <span>
-                                    External wallet
-                                </span>
-
-                            </span>
-
-                            <span
-                                class="provider-arrow"
-                                aria-hidden="true"
-                            >
-                                ›
-                            </span>
-
-                        </button>
-
-
-                        <button
-                            id="walletconnect-btn"
-                            class="wallet-provider-btn"
-                            type="button"
-                            data-wallet-provider="walletconnect"
-                        >
-
-                            <span class="provider-icon">
-                                W
-                            </span>
-
-                            <span class="provider-info">
-
-                                <strong>
-                                    WalletConnect
-                                </strong>
-
-                                <span>
-                                    Connect another compatible wallet
-                                </span>
-
-                            </span>
-
-                            <span
-                                class="provider-arrow"
-                                aria-hidden="true"
-                            >
-                                ›
-                            </span>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="security-note">
-
-                        <strong>
-                            Non-custodial
-                        </strong>
-
-                        <p>
-                            VYRO does not receive or store your wallet's private keys.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 WALLET CONNECTED
-                 ================================================= -->
-
-            <section
-                id="wallet-connected-screen"
-                class="screen app-screen"
-                data-screen="wallet-connected"
-                aria-labelledby="wallet-connected-title"
-                hidden
-            >
-
-                <div class="screen-container centered-screen">
-
-                    <div
-                        class="success-icon"
-                        aria-hidden="true"
-                    >
-                        ✓
-                    </div>
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">
-                            WALLET CONNECTED
-                        </p>
-
-                        <h1 id="wallet-connected-title">
-                            Wallet ready
-                        </h1>
-
-                        <p>
-                            Your external wallet is connected to VYRO.
-                        </p>
-
-                    </div>
-
-
-                    <div class="connected-wallet-card">
-
-                        <span class="wallet-card-label">
-                            Wallet
-                        </span>
-
-                        <strong id="connected-wallet-type">
-                            External Wallet
-                        </strong>
-
-                        <span
-                            id="connected-wallet-address"
-                            class="wallet-address"
-                        >
-                            Not available
-                        </span>
-
-                        <span
-                            id="connected-wallet-network"
-                            class="wallet-network"
-                        >
-                            Solana
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        id="wallet-connected-continue-btn"
-                        class="primary-btn"
-                        type="button"
-                    >
-                        Continue
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 ACTIVITY
-                 ================================================= -->
-
-            <section
-                id="activity-screen"
-                class="screen app-screen"
-                data-screen="activity"
-                aria-labelledby="activity-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">TRANSACTIONS</p>
-
-                        <h1 id="activity-title">
-                            Activity
-                        </h1>
-
-                        <p>
-                            Your VYRO transaction history.
-                        </p>
-
-                    </div>
-
-
-                    <div
-                        id="activity-list"
-                        class="activity-list"
-                    >
-
-                        <div
-                            id="activity-empty-state"
-                            class="empty-state"
-                        >
-
-                            <div class="empty-state-icon">
-                                —
-                            </div>
-
-                            <strong>
-                                No transactions yet
-                            </strong>
-
-                            <p>
-                                Your VYRO activity will appear here.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 TRANSACTION DETAIL
-                 ================================================= -->
-
-            <section
-                id="transaction-detail-screen"
-                class="screen app-screen"
-                data-screen="transaction-detail"
-                aria-labelledby="transaction-detail-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">
-                            TRANSACTION
-                        </p>
-
-                        <h1 id="transaction-detail-title">
-                            Transaction details
-                        </h1>
-
-                    </div>
-
-
-                    <div class="transaction-detail-card">
-
-                        <div class="transaction-status-large">
-
-                            <span
-                                id="transaction-status-icon"
-                                aria-hidden="true"
-                            >
-                                ✓
-                            </span>
-
-                            <strong id="transaction-status">
-                                Complete
-                            </strong>
-
-                        </div>
-
-
-                        <div class="transaction-detail-row">
-
-                            <span>Type</span>
-
-                            <strong id="transaction-type">
-                                Send
-                            </strong>
-
-                        </div>
-
-
-                        <div class="transaction-detail-row">
-
-                            <span>Recipient</span>
-
-                            <strong id="transaction-recipient">
-                                @username
-                            </strong>
-
-                        </div>
-
-
-                        <div class="transaction-detail-row">
-
-                            <span>Amount</span>
-
-                            <strong id="transaction-amount">
-                                0.00 USDC
-                            </strong>
-
-                        </div>
-
-
-                        <div class="transaction-detail-row">
-
-                            <span>Network</span>
-
-                            <strong id="transaction-network">
-                                Solana
-                            </strong>
-
-                        </div>
-
-
-                        <div class="transaction-detail-row">
-
-                            <span>Date</span>
-
-                            <strong id="transaction-date">
-                                —
-                            </strong>
-
-                        </div>
-
-
-                        <div class="transaction-detail-row">
-
-                            <span>Transaction ID</span>
-
-                            <strong
-                                id="transaction-id"
-                                class="transaction-id"
-                            >
-                                —
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 SETTINGS
-                 ================================================= -->
-
-            <section
-                id="settings-screen"
-                class="screen app-screen"
-                data-screen="settings"
-                aria-labelledby="settings-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">ACCOUNT</p>
-
-                        <h1 id="settings-title">
-                            Settings
-                        </h1>
-
-                        <p>
-                            Manage your VYRO account and preferences.
-                        </p>
-
-                    </div>
-
-
-                    <div class="settings-list">
-
-                        <button
-                            id="settings-profile-btn"
-                            class="settings-row"
-                            type="button"
-                        >
-
-                            <span>
-                                <strong>Profile</strong>
-                                <small>
-                                    Username and recognition word
-                                </small>
-                            </span>
-
-                            <span aria-hidden="true">›</span>
-
-                        </button>
-
-
-                        <button
-                            id="settings-security-btn"
-                            class="settings-row"
-                            type="button"
-                        >
-
-                            <span>
-                                <strong>Security</strong>
-                                <small>
-                                    Password and two-factor authentication
-                                </small>
-                            </span>
-
-                            <span aria-hidden="true">›</span>
-
-                        </button>
-
-
-                        <button
-                            id="settings-wallets-btn"
-                            class="settings-row"
-                            type="button"
-                            data-action="show-wallets"
-                        >
-
-                            <span>
-                                <strong>Wallets</strong>
-                                <small>
-                                    Manage connected wallets
-                                </small>
-                            </span>
-
-                            <span aria-hidden="true">›</span>
-
-                        </button>
-
-
-                        <button
-                            id="settings-privacy-btn"
-                            class="settings-row"
-                            type="button"
-                            data-action="show-privacy"
-                        >
-
-                            <span>
-                                <strong>Privacy Policy</strong>
-                                <small>
-                                    How VYRO handles information
-                                </small>
-                            </span>
-
-                            <span aria-hidden="true">›</span>
-
-                        </button>
-
-
-                        <button
-                            id="settings-terms-btn"
-                            class="settings-row"
-                            type="button"
-                            data-action="show-terms"
-                        >
-
-                            <span>
-                                <strong>Terms of Service</strong>
-                                <small>
-                                    VYRO terms and conditions
-                                </small>
-                            </span>
-
-                            <span aria-hidden="true">›</span>
-
-                        </button>
-
-                    </div>
-
-
-                    <button
-                        id="logout-btn"
-                        class="danger-btn"
-                        type="button"
-                    >
-                        Log Out
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 PROFILE
-                 ================================================= -->
-
-            <section
-                id="profile-screen"
-                class="screen app-screen"
-                data-screen="profile"
-                aria-labelledby="profile-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">YOUR PROFILE</p>
-
-                        <h1 id="profile-title">
-                            Profile
-                        </h1>
-
-                    </div>
-
-
-                    <div class="profile-card">
-
-                        <div class="profile-avatar">
-                            @
-                        </div>
-
-                        <strong id="profile-username">
-                            @username
-                        </strong>
-
-                        <span id="profile-email">
-                            email@example.com
-                        </span>
-
-                    </div>
-
-
-                    <div class="profile-detail">
-
-                        <span>Recognition word</span>
-
-                        <strong id="profile-recognition-word">
-                            —
-                        </strong>
-
-                    </div>
-
-
-                    <div class="profile-detail">
-
-                        <span>Account status</span>
-
-                        <strong id="profile-account-status">
-                            Active
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 SECURITY
-                 ================================================= -->
-
-            <section
-                id="security-screen"
-                class="screen app-screen"
-                data-screen="security"
-                aria-labelledby="security-title"
-                hidden
-            >
-
-                <div class="screen-container">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">ACCOUNT SECURITY</p>
-
-                        <h1 id="security-title">
-                            Security
-                        </h1>
-
-                        <p>
-                            Protect your VYRO account.
-                        </p>
-
-                    </div>
-
-
-                    <div class="security-setting-row">
-
-                        <div>
-
-                            <strong>
-                                Two-factor authentication
-                            </strong>
-
-                            <small id="two-factor-setting-status">
-                                Enabled
-                            </small>
-
-                        </div>
-
-                        <span
-                            id="two-factor-status-indicator"
-                            class="status-indicator active"
-                        >
-                            ON
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        id="change-password-btn"
-                        class="secondary-btn"
-                        type="button"
-                    >
-                        Change Password
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 PRIVACY
-                 ================================================= -->
-
-            <section
-                id="privacy-screen"
-                class="screen app-screen"
-                data-screen="privacy"
-                aria-labelledby="privacy-title"
-                hidden
-            >
-
-                <div class="screen-container legal-screen">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">VYRO</p>
-
-                        <h1 id="privacy-title">
-                            Privacy Policy
-                        </h1>
-
-                        <p>
-                            Your privacy matters.
-                        </p>
-
-                    </div>
-
-
-                    <article class="legal-content">
-
-                        <h2>Information We Collect</h2>
-
-                        <p>
-                            VYRO may collect account information necessary
-                            to provide the service, including your username,
-                            email address, wallet addresses, transaction
-                            information, and applicable technical information.
-                        </p>
-
-
-                        <h2>We Do Not Sell Your Information</h2>
-
-                        <p>
-                            VYRO will not sell your personal information.
-                            VYRO does not use your information for the sale
-                            of personal data to third parties.
-                        </p>
-
-
-                        <h2>Wallet Information</h2>
-
-                        <p>
-                            VYRO is designed as a non-custodial interface.
-                            Your external wallet remains under your control.
-                            VYRO does not request or store your private keys.
-                        </p>
-
-
-                        <h2>Transaction Information</h2>
-
-                        <p>
-                            Information necessary to support VYRO activity
-                            and blockchain transactions may be processed
-                            as part of providing the service.
-                        </p>
-
-
-                        <h2>Analytics and Cookies</h2>
-
-                        <p>
-                            VYRO may use limited analytics, cookies, or
-                            similar technologies where necessary for
-                            functionality, security, performance, or
-                            service improvement.
-                        </p>
-
-
-                        <h2>Legally Required Disclosures</h2>
-
-                        <p>
-                            VYRO may disclose information when required by
-                            applicable law, legal process, court order,
-                            or other valid governmental request.
-                        </p>
-
-                    </article>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 TERMS
-                 ================================================= -->
-
-            <section
-                id="terms-screen"
-                class="screen app-screen"
-                data-screen="terms"
-                aria-labelledby="terms-title"
-                hidden
-            >
-
-                <div class="screen-container legal-screen">
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">VYRO</p>
-
-                        <h1 id="terms-title">
-                            Terms of Service
-                        </h1>
-
-                        <p>
-                            VYRO service terms.
-                        </p>
-
-                    </div>
-
-
-                    <article class="legal-content">
-
-                        <h2>Non-Custodial Service</h2>
-
-                        <p>
-                            VYRO is designed as a non-custodial interface
-                            for interacting with supported external wallets
-                            and blockchain networks.
-                        </p>
-
-
-                        <h2>User-Controlled Wallets</h2>
-
-                        <p>
-                            Users remain responsible for their external
-                            wallets, private keys, recovery phrases,
-                            transactions, and assets.
-                        </p>
-
-
-                        <h2>Blockchain Transactions</h2>
-
-                        <p>
-                            Blockchain transactions may be irreversible.
-                            Users are responsible for reviewing recipient,
-                            asset, network, and amount information before
-                            approving a transaction.
-                        </p>
-
-
-                        <h2>No Guarantee of Blockchain Availability</h2>
-
-                        <p>
-                            Blockchain networks and external wallet
-                            providers may experience outages, congestion,
-                            delays, or other interruptions outside VYRO's
-                            control.
-                        </p>
-
-
-                        <h2>Information and Accuracy</h2>
-
-                        <p>
-                            Users are responsible for maintaining accurate
-                            account information and protecting their account
-                            credentials.
-                        </p>
-
-
-                        <h2>Acceptance</h2>
-
-                        <p>
-                            By using VYRO, you acknowledge that you have
-                            reviewed and agreed to the applicable terms.
-                        </p>
-
-                    </article>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 ERROR / STATUS
-                 ================================================= -->
-
-            <section
-                id="error-screen"
-                class="screen"
-                data-screen="error"
-                aria-labelledby="error-title"
-                hidden
-            >
-
-                <div class="screen-container centered-screen">
-
-                    <div
-                        class="error-icon"
-                        aria-hidden="true"
-                    >
-                        !
-                    </div>
-
-                    <div class="screen-heading">
-
-                        <p class="eyebrow">VYRO</p>
-
-                        <h1 id="error-title">
-                            Something went wrong
-                        </h1>
-
-                        <p id="error-message">
-                            Please try again.
-                        </p>
-
-                    </div>
-
-
-                    <button
-                        id="error-retry-btn"
-                        class="primary-btn"
-                        type="button"
-                    >
-                        Try Again
-                    </button>
-
-
-                    <button
-                        id="error-home-btn"
-                        class="secondary-btn"
-                        type="button"
-                        data-action="show-home"
-                    >
-                        Return Home
-                    </button>
-
-                </div>
-
-            </section>
-
-
-        </main>
-
-
-        <!-- ===================================================
-             GLOBAL LOADING OVERLAY
-             =================================================== -->
-
-        <div
-            id="loading-overlay"
-            class="loading-overlay"
-            hidden
-            aria-hidden="true"
+        <button
+            id="get-started-btn"
+            class="primary-button"
+            type="button"
         >
+            GET STARTED
+        </button>
 
-            <div class="loading-card">
-
-                <div class="loading-spinner"></div>
-
-                <p id="loading-message">
-                    Please wait...
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- ===================================================
-             GLOBAL MESSAGE / TOAST
-             =================================================== -->
-
-        <div
-            id="toast"
-            class="toast"
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
-            hidden
+        <button
+            id="login-btn"
+            class="secondary-button"
+            type="button"
         >
-            <span id="toast-message"></span>
-        </div>
+            LOG IN
+        </button>
+
+    </div>
+
+    <div class="welcome-footer">
+
+        <span>NON-CUSTODIAL</span>
+
+        <span>•</span>
+
+        <span>YOUR WALLET</span>
+
+    </div>
+
+</section>
 
 
-        <!-- ===================================================
-             CONFIRMATION MODAL
-             =================================================== -->
+<!-- =========================================================
+     CREATE ACCOUNT
+     ========================================================= -->
 
-        <div
-            id="confirmation-modal"
-            class="modal-backdrop"
-            hidden
-            aria-hidden="true"
+<section id="create-account-screen" class="screen">
+
+    <div class="auth-header">
+
+        <button
+            id="create-account-back"
+            class="back-button"
+            type="button"
         >
+            ‹
+        </button>
 
-            <div
-                class="modal"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="confirmation-modal-title"
-            >
-
-                <button
-                    id="confirmation-modal-close-btn"
-                    class="modal-close-btn"
-                    type="button"
-                    aria-label="Close"
-                >
-                    ×
-                </button>
-
-                <h2 id="confirmation-modal-title">
-                    Confirm
-                </h2>
-
-                <p id="confirmation-modal-message">
-                    Are you sure?
-                </p>
-
-                <div class="modal-actions">
-
-                    <button
-                        id="confirmation-modal-cancel-btn"
-                        class="secondary-btn"
-                        type="button"
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        id="confirmation-modal-confirm-btn"
-                        class="primary-btn"
-                        type="button"
-                    >
-                        Confirm
-                    </button>
-
-                </div>
-
-            </div>
-
+        <div class="auth-logo">
+            VYRO
         </div>
-
 
     </div>
 
 
-    <!-- =======================================================
-         JAVASCRIPT
-         =======================================================
+    <div class="auth-content">
 
-         Scripts are intentionally loaded at the bottom.
+        <h1>
+            Create Account
+        </h1>
 
-         IMPORTANT:
-         The files do not need to exist yet.
-         We will create them one at a time and make them
-         communicate with this HTML contract.
-         ======================================================= -->
+        <p class="auth-subtitle">
+            Create your VYRO account.
+        </p>
+
+
+        <div class="form-group">
+
+            <label for="username">
+                VYRO USERNAME
+            </label>
+
+            <input
+                id="username"
+                type="text"
+                placeholder="@username"
+                autocomplete="username"
+                autocapitalize="none"
+                spellcheck="false"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="email">
+                EMAIL
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="password">
+                PASSWORD
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="verification-word">
+                VERIFICATION WORD
+            </label>
+
+            <input
+                id="verification-word"
+                type="text"
+                placeholder="Choose a verification word"
+                autocomplete="off"
+                autocapitalize="none"
+                spellcheck="false"
+            >
+
+        </div>
+
+
+        <button
+            id="continue-registration-btn"
+            class="primary-button auth-button"
+            type="button"
+        >
+            CONTINUE
+        </button>
+
+    </div>
+
+
+    <div class="auth-footer">
+
+        <span>YOUR WALLET</span>
+
+        <span>•</span>
+
+        <span>YOUR CRYPTO</span>
+
+    </div>
+
+</section>
+
 
 <!-- =========================================================
-     VYRO — EXTERNAL SDKs
+     LOGIN
      ========================================================= -->
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+<section id="login-screen" class="screen">
 
-<!-- WalletConnect / Reown Sign Client -->
-<script src="https://unpkg.com/@walletconnect/sign-client@2.23.5/dist/index.umd.js"></script>
+    <div class="auth-header">
+
+        <button
+            id="login-back"
+            class="back-button"
+            type="button"
+        >
+            ‹
+        </button>
+
+        <div class="auth-logo">
+            VYRO
+        </div>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Welcome Back
+        </h1>
+
+        <p class="auth-subtitle">
+            Log in to your VYRO account.
+        </p>
+
+
+        <div class="form-group">
+
+            <label for="login-email">
+                Email
+            </label>
+
+            <input
+                id="login-email"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="login-password">
+                Password
+            </label>
+
+            <input
+                id="login-password"
+                type="password"
+                placeholder="Your password"
+                autocomplete="current-password"
+            >
+
+        </div>
+
+
+        <button
+            id="login-submit-btn"
+            class="primary-button auth-button"
+            type="button"
+        >
+            LOG IN
+        </button>
+
+
+        <button
+            id="forgot-password-btn"
+            class="text-button"
+            type="button"
+        >
+            Forgot password?
+        </button>
+
+    </div>
+
+
+    <div class="auth-footer">
+
+        <span>SECURE</span>
+
+        <span>•</span>
+
+        <span>NON-CUSTODIAL</span>
+
+    </div>
+
+</section>
 
 
 <!-- =========================================================
-     VYRO — APPLICATION FILES
+     EMAIL VERIFICATION
+     ========================================================= -->
+
+<section id="email-verification-screen" class="screen">
+
+    <div class="auth-header">
+
+        <button
+            id="email-verification-back"
+            class="back-button"
+            type="button"
+        >
+            ‹
+        </button>
+
+        <div class="auth-logo">
+            VYRO
+        </div>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Check Your Email
+        </h1>
+
+        <p class="auth-subtitle">
+            We sent a verification link to your email address.
+        </p>
+
+
+        <div class="verification-message">
+
+            <div class="verification-icon">
+                ✉
+            </div>
+
+            <h2>
+                Verify Your Email
+            </h2>
+
+            <p>
+                Open the email from VYRO and tap
+                <strong>VERIFY EMAIL</strong>
+                to verify your account.
+            </p>
+
+            <p class="verification-spam">
+
+                <strong>
+                    Don't see the email?
+                </strong>
+
+                <br>
+
+                Check your spam or junk folder.
+
+            </p>
+
+        </div>
+
+
+        <button
+            id="verify-email-btn"
+            class="primary-button auth-button"
+            type="button"
+        >
+            I'VE VERIFIED MY EMAIL
+        </button>
+
+
+        <button
+            id="resend-email-btn"
+            class="text-button"
+            type="button"
+        >
+            RESEND EMAIL
+        </button>
+
+    </div>
+
+
+    <div class="auth-footer">
+
+        <span>SECURE</span>
+
+        <span>•</span>
+
+        <span>NON-CUSTODIAL</span>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     TWO-FACTOR AUTHENTICATION
+     ========================================================= -->
+
+<!-- =========================================================
+     2FA CHOICE SCREEN
+========================================================= -->
+
+<section
+    id="two-factor-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+        <button
+            id="two-factor-back"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>Secure Your Account</h1>
+
+        <p class="auth-subtitle">
+            Two-factor authentication adds an extra layer of
+            security to your VYRO account.
+        </p>
+
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                TWO-FACTOR AUTHENTICATION
+            </div>
+
+            <p class="auth-card-text">
+                You can enable two-factor authentication using
+                your VYRO email address. No authenticator app
+                is required.
+            </p>
+
+
+            <button
+                id="enable-two-factor-btn"
+                class="primary-button"
+                type="button"
+            >
+                ENABLE 2FA
+            </button>
+
+
+            <button
+                id="skip-two-factor-btn"
+                class="secondary-button"
+                type="button"
+            >
+                SKIP FOR NOW
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     2FA CODE SCREEN
+========================================================= -->
+
+<section
+    id="two-factor-code-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="two-factor-code-back"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>Enter Security Code</h1>
+
+        <p class="auth-subtitle">
+            Enter the 6-digit code sent to your VYRO email address.
+        </p>
+
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                EMAIL VERIFICATION CODE
+            </div>
+
+            <p class="auth-card-text">
+                The code will expire after a short period of time.
+            </p>
+
+
+            <input
+                id="two-factor-code"
+                class="auth-input"
+                type="text"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                maxlength="6"
+                placeholder="000000"
+            >
+
+
+            <button
+                id="verify-two-factor-code-btn"
+                class="primary-button"
+                type="button"
+            >
+                VERIFY CODE
+            </button>
+
+
+            <button
+                id="resend-two-factor-code-btn"
+                class="secondary-button"
+                type="button"
+            >
+                RESEND CODE
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HOME
+     ========================================================= -->
+
+<section id="home-screen" class="screen">
+
+<div class="home-header">
+
+    <div class="home-brand">
+        VYRO
+    </div>
+
+    <div class="profile-menu">
+
+        <button
+            id="profile-menu-btn"
+            class="profile-avatar-button"
+            type="button"
+            aria-expanded="false"
+            aria-label="Open profile menu"
+        >
+            <span id="profile-avatar-initial">V</span>
+        </button>
+
+        <div
+            id="profile-dropdown"
+            class="profile-dropdown"
+        >
+
+            <div class="profile-dropdown-header">
+                <span id="profile-menu-username">
+                    @username
+                </span>
+            </div>
+
+            <button
+                id="profile-menu-profile"
+                class="profile-menu-item"
+                type="button"
+            >
+                PROFILE
+            </button>
+
+            <button
+                id="profile-menu-settings"
+                class="profile-menu-item"
+                type="button"
+            >
+                SETTINGS
+            </button>
+
+            <button
+                id="profile-menu-security"
+                class="profile-menu-item"
+                type="button"
+            >
+                SECURITY
+            </button>
+
+            <button
+                id="profile-menu-wallets"
+                class="profile-menu-item"
+                type="button"
+            >
+                WALLETS
+            </button>
+
+            <div class="profile-menu-divider"></div>
+
+            <button
+                id="logout-btn"
+                class="profile-menu-item logout"
+                type="button"
+            >
+                LOG OUT
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+    <div class="home-content">
+
+        <p class="balance-label">
+            TOTAL BALANCE
+        </p>
+
+
+        <h1 class="balance-amount">
+            $0.00
+        </h1>
+
+
+        <p class="balance-subtitle">
+            USDC
+        </p>
+
+
+        <div class="home-actions">
+
+            <button
+                id="send-btn"
+                class="primary-button"
+                type="button"
+            >
+                SEND
+            </button>
+
+
+            <button
+                id="receive-btn"
+                class="secondary-button"
+                type="button"
+            >
+                RECEIVE
+            </button>
+
+        </div>
+
+
+        <div class="activity-section">
+
+<div class="activity-header">
+
+    <span>
+        RECENT ACTIVITY
+    </span>
+
+    <button
+        id="view-all-activity-btn"
+        class="view-all-button"
+        type="button"
+    >
+        VIEW ALL
+    </button>
+
+</div>
+
+
+            <div class="empty-activity">
+
+                <div class="empty-icon">
+                    V
+                </div>
+
+                <p>
+                    No transactions yet
+                </p>
+
+                <small>
+                    Your VYRO activity will appear here.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SEND
+     ========================================================= -->
+
+<section id="send-screen" class="screen">
+
+    <div class="internal-header">
+
+        <button
+            id="send-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ‹
+        </button>
+
+
+        <button
+            id="send-home-logo-btn"
+            class="home-logo-button"
+            type="button"
+        >
+            VYRO
+        </button>
+
+    </div>
+
+
+    <div class="send-content">
+
+        <h1>
+            Send
+        </h1>
+
+        <p class="auth-subtitle">
+            Send crypto to another VYRO user.
+        </p>
+
+
+        <div class="form-group">
+
+            <label for="send-asset">
+                Asset
+            </label>
+
+            <select id="send-asset">
+
+                <option value="usdc">
+                    USDC
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="send-network">
+                Network
+            </label>
+
+            <select id="send-network">
+
+                <option value="solana">
+                    Solana
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="send-recipient">
+                Recipient
+            </label>
+
+
+            <div class="input-wrapper">
+
+                <span class="input-prefix">
+                    @
+                </span>
+
+                <input
+                    id="send-recipient"
+                    type="text"
+                    placeholder="username"
+                    autocomplete="off"
+                    autocapitalize="none"
+                    spellcheck="false"
+                >
+
+            </div>
+
+
+            <div
+                id="recipient-result"
+                class="recipient-result"
+            >
+
+                <div class="recipient-status">
+                    VYRO USER
+                </div>
+
+                <strong id="recipient-display">
+                    @username
+                </strong>
+
+                <small>
+                    Recipient found
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="send-amount">
+                Amount
+            </label>
+
+            <input
+                id="send-amount"
+                type="number"
+                inputmode="decimal"
+                placeholder="0.00"
+                min="0"
+                step="any"
+            >
+
+        </div>
+
+
+        <button
+            id="continue-send-btn"
+            class="primary-button auth-button"
+            type="button"
+        >
+            CONTINUE
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CONFIRM PAYMENT
+     ========================================================= -->
+
+<section id="confirm-payment-screen" class="screen">
+
+    <div class="internal-header">
+
+        <button
+            id="confirm-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ‹
+        </button>
+
+
+        <button
+            id="confirm-home-logo-btn"
+            class="home-logo-button"
+            type="button"
+        >
+            VYRO
+        </button>
+
+    </div>
+
+
+    <div class="confirm-content">
+
+        <h1>
+            Confirm Payment
+        </h1>
+
+        <p class="auth-subtitle">
+            Review the payment before continuing.
+        </p>
+
+
+        <div class="payment-summary">
+
+            <div class="summary-row">
+
+                <span>
+                    SEND TO
+                </span>
+
+                <strong id="confirm-recipient">
+                    @username
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    AMOUNT
+                </span>
+
+                <strong id="confirm-amount">
+                    0.00 USDC
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    NETWORK
+                </span>
+
+                <strong id="confirm-network">
+                    Solana
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="verification-box">
+
+            <div class="verification-title">
+                VERIFICATION
+            </div>
+
+
+            <p>
+                Ask the recipient for their VYRO
+                verification word before confirming.
+            </p>
+
+
+            <div class="form-group">
+
+                <label for="verification-word-confirm">
+                    Verification Word
+                </label>
+
+                <input
+                    id="verification-word-confirm"
+                    type="text"
+                    placeholder="Enter verification word"
+                    autocomplete="off"
+                    autocapitalize="none"
+                    spellcheck="false"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="confirm-payment-btn"
+            class="primary-button auth-button"
+            type="button"
+        >
+            CONFIRM PAYMENT
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     RECEIVE
+     ========================================================= -->
+
+<section id="receive-screen" class="screen">
+
+    <div class="internal-header">
+
+        <button
+            id="receive-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ‹
+        </button>
+
+
+        <button
+            id="receive-home-logo-btn"
+            class="home-logo-button"
+            type="button"
+        >
+            VYRO
+        </button>
+
+    </div>
+
+
+    <div class="receive-content">
+
+        <h1>
+            Receive
+        </h1>
+
+
+        <p class="auth-subtitle">
+            Receive crypto directly to your wallet.
+        </p>
+
+
+        <div class="receive-card">
+
+            <div class="receive-label">
+                YOUR VYRO USERNAME
+            </div>
+
+
+            <div class="receive-username">
+                @username
+            </div>
+
+
+            <div class="receive-divider"></div>
+
+
+            <div class="receive-label">
+                ASSET
+            </div>
+
+
+            <strong class="receive-asset">
+                USDC
+            </strong>
+
+
+            <div class="receive-label receive-network-label">
+                NETWORK
+            </div>
+
+
+            <strong class="receive-network">
+                Solana
+            </strong>
+
+        </div>
+
+
+        <div class="qr-placeholder receive-qr">
+
+            <span>
+                VYRO
+            </span>
+
+            <small>
+                QR CODE
+            </small>
+
+        </div>
+
+
+        <p class="receive-note">
+            Your wallet address and QR code will appear here
+            once your wallet is connected.
+        </p>
+
+
+        <button
+            id="copy-receive-btn"
+            class="secondary-button auth-button"
+            type="button"
+        >
+            COPY USERNAME
+        </button>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     PROFILE SCREEN
+     ========================================================= -->
+
+<section
+    id="profile-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+        <button
+            id="profile-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+    </div>
+
+    <div class="auth-content">
+
+        <h1>Profile</h1>
+
+        <p class="auth-subtitle">
+            Manage your VYRO profile.
+        </p>
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                USERNAME
+            </div>
+
+            <p
+                id="profile-username-display"
+                class="auth-card-text"
+            >
+                @username
+            </p>
+
+            <div class="auth-card-title">
+                EMAIL
+            </div>
+
+            <p
+                id="profile-email-display"
+                class="auth-card-text"
+            >
+                —
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SETTINGS SCREEN
+     ========================================================= -->
+
+<section
+    id="settings-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+        <button
+            id="settings-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+    </div>
+
+    <div class="auth-content">
+
+        <h1>Settings</h1>
+
+        <p class="auth-subtitle">
+            Manage your VYRO account settings.
+        </p>
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                ACCOUNT SETTINGS
+            </div>
+
+            <button
+                id="change-email-btn"
+                class="secondary-button"
+                type="button"
+            >
+                CHANGE EMAIL
+            </button>
+
+            <button
+                id="change-password-btn"
+                class="secondary-button"
+                type="button"
+            >
+                CHANGE PASSWORD
+            </button>
+
+            <button
+                id="delete-account-btn"
+                class="secondary-button"
+                type="button"
+            >
+                DELETE ACCOUNT
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SECURITY SCREEN
+     ========================================================= -->
+
+<section
+    id="security-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+        <button
+            id="security-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+    </div>
+
+    <div class="auth-content">
+
+        <h1>Security</h1>
+
+        <p class="auth-subtitle">
+            Manage your VYRO account security.
+        </p>
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                TWO-FACTOR AUTHENTICATION
+            </div>
+
+            <p class="auth-card-text">
+                Protect your VYRO account with email-based
+                two-factor authentication.
+            </p>
+
+            <button
+                id="security-2fa-btn"
+                class="primary-button"
+                type="button"
+            >
+                MANAGE 2FA
+            </button>
+
+            <div class="auth-card-title">
+                VERIFICATION WORD
+            </div>
+
+            <button
+                id="change-verification-word-btn"
+                class="secondary-button"
+                type="button"
+            >
+                CHANGE VERIFICATION WORD
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     WALLETS SCREEN
+     ========================================================= -->
+
+<section
+    id="wallets-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="wallets-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>Wallets</h1>
+
+        <p class="auth-subtitle">
+            Manage the external wallets connected to VYRO.
+        </p>
+
+
+        <!-- =================================================
+             SOLANA WALLET STATUS
+             ================================================= -->
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                SOLANA
+            </div>
+
+            <p
+                id="no-wallet-connected"
+                class="auth-card-text"
+            >
+                No wallet connected.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             SAVED / CONNECTED WALLET
+             ================================================= -->
+
+        <div
+            id="saved-wallet-card"
+            class="auth-card"
+            style="display:none;"
+        >
+
+            <div class="auth-card-title">
+                CONNECTED WALLET
+            </div>
+
+            <p
+                id="saved-wallet-provider"
+                class="auth-card-text"
+            >
+                Trust Wallet
+            </p>
+
+            <p
+                id="saved-wallet-network"
+                class="auth-card-text"
+            >
+                SOLANA
+            </p>
+
+<p
+    id="saved-wallet-address"
+    class="auth-card-text wallet-address-display"
+>
+    Wallet address
+</p>
+
+<button
+    id="copy-wallet-address-btn"
+    class="secondary-button"
+    type="button"
+>
+    COPY ADDRESS
+</button>
+
+<button
+    id="copy-wallet-address-btn"
+    class="secondary-button"
+    type="button"
+>
+    COPY ADDRESS
+</button>
+
+        </div>
+
+
+        <!-- =================================================
+             CONNECT WALLET BUTTON
+             ================================================= -->
+
+        <button
+            id="connect-wallet-btn"
+            class="primary-button"
+            type="button"
+        >
+            CONNECT WALLET
+        </button>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     TRANSACTION HISTORY SCREEN
+     ========================================================= -->
+
+<section
+    id="transaction-history-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="transaction-history-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Activity
+        </h1>
+
+        <p class="auth-subtitle">
+            View your VYRO transaction history.
+        </p>
+
+
+        <div
+            id="transaction-list"
+            class="auth-card"
+        >
+
+            <div class="auth-card-title">
+                RECENT TRANSACTIONS
+            </div>
+
+
+            <div
+                id="transaction-empty"
+                class="auth-card-text"
+            >
+                No transactions yet.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     TRANSACTION DETAILS SCREEN
+     ========================================================= -->
+
+<section
+    id="transaction-details-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="transaction-details-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Transaction
+        </h1>
+
+        <p class="auth-subtitle">
+            Transaction details.
+        </p>
+
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                STATUS
+            </div>
+
+            <p
+                id="transaction-detail-status"
+                class="auth-card-text"
+            >
+                —
+            </p>
+
+
+            <div class="auth-card-title">
+                TYPE
+            </div>
+
+            <p
+                id="transaction-detail-type"
+                class="auth-card-text"
+            >
+                —
+            </p>
+
+
+            <div class="auth-card-title">
+                RECIPIENT
+            </div>
+
+            <p
+                id="transaction-detail-recipient"
+                class="auth-card-text"
+            >
+                —
+            </p>
+
+
+            <div class="auth-card-title">
+                AMOUNT
+            </div>
+
+            <p
+                id="transaction-detail-amount"
+                class="auth-card-text"
+            >
+                —
+            </p>
+
+
+            <div class="auth-card-title">
+                ASSET
+            </div>
+
+            <p
+                id="transaction-detail-asset"
+                class="auth-card-text"
+            >
+                —
+            </p>
+
+
+            <div class="auth-card-title">
+                NETWORK
+            </div>
+
+            <p
+                id="transaction-detail-network"
+                class="auth-card-text"
+            >
+                —
+            </p>
+
+
+            <div class="auth-card-title">
+                TRANSACTION ID
+            </div>
+
+            <p
+                id="transaction-detail-id"
+                class="auth-card-text"
+            >
+                —
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CHANGE EMAIL SCREEN
+     ========================================================= -->
+
+<section
+    id="change-email-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="change-email-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Change Email
+        </h1>
+
+        <p class="auth-subtitle">
+            Update the email address associated with your VYRO account.
+        </p>
+
+
+        <div class="auth-card">
+
+            <div class="form-group">
+
+                <label for="new-email">
+                    NEW EMAIL
+                </label>
+
+                <input
+                    id="new-email"
+                    type="email"
+                    placeholder="new@email.com"
+                    autocomplete="email"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="current-password-email">
+                    CURRENT PASSWORD
+                </label>
+
+                <input
+                    id="current-password-email"
+                    type="password"
+                    placeholder="Enter your current password"
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <button
+                id="save-email-btn"
+                class="primary-button"
+                type="button"
+            >
+                UPDATE EMAIL
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CHANGE PASSWORD SCREEN
+     ========================================================= -->
+
+<section
+    id="change-password-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="change-password-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Change Password
+        </h1>
+
+        <p class="auth-subtitle">
+            Update your VYRO account password securely.
+        </p>
+
+
+        <div class="auth-card">
+
+            <div class="form-group">
+
+                <label for="current-password">
+                    CURRENT PASSWORD
+                </label>
+
+                <input
+                    id="current-password"
+                    type="password"
+                    placeholder="Current password"
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="new-password">
+                    NEW PASSWORD
+                </label>
+
+                <input
+                    id="new-password"
+                    type="password"
+                    placeholder="New password"
+                    autocomplete="new-password"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="confirm-new-password">
+                    CONFIRM NEW PASSWORD
+                </label>
+
+                <input
+                    id="confirm-new-password"
+                    type="password"
+                    placeholder="Confirm new password"
+                    autocomplete="new-password"
+                >
+
+            </div>
+
+
+            <button
+                id="save-password-btn"
+                class="primary-button"
+                type="button"
+            >
+                UPDATE PASSWORD
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CHANGE VERIFICATION WORD SCREEN
+     ========================================================= -->
+
+<section
+    id="change-verification-word-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="change-verification-word-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Verification Word
+        </h1>
+
+        <p class="auth-subtitle">
+            Change the word used to verify recipients before payments.
+        </p>
+
+
+        <div class="auth-card">
+
+            <div class="form-group">
+
+                <label for="new-verification-word">
+                    NEW VERIFICATION WORD
+                </label>
+
+                <input
+                    id="new-verification-word"
+                    type="text"
+                    placeholder="Enter a new word"
+                    autocomplete="off"
+                    autocapitalize="none"
+                    spellcheck="false"
+                >
+
+            </div>
+
+
+            <button
+                id="save-verification-word-btn"
+                class="primary-button"
+                type="button"
+            >
+                SAVE VERIFICATION WORD
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     DELETE ACCOUNT SCREEN
+     ========================================================= -->
+
+<section
+    id="delete-account-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="delete-account-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Delete Account
+        </h1>
+
+        <p class="auth-subtitle">
+            Permanently delete your VYRO account.
+        </p>
+
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                IMPORTANT
+            </div>
+
+            <p class="auth-card-text">
+                Account deletion is permanent. Make sure you have
+                secured any wallet information before continuing.
+            </p>
+
+
+            <button
+                id="confirm-delete-account-btn"
+                class="secondary-button"
+                type="button"
+            >
+                DELETE MY ACCOUNT
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CONNECT WALLET SCREEN
+     ========================================================= -->
+
+<section
+    id="connect-wallet-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="connect-wallet-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Connect Wallet
+        </h1>
+
+        <p class="auth-subtitle">
+            Connect your external wallet to VYRO.
+        </p>
+
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                SOLANA
+            </div>
+
+            <p class="auth-card-text">
+                VYRO does not hold your private keys or seed phrase.
+                Your external wallet remains in control of your funds.
+            </p>
+
+
+            <button
+                id="phantom-wallet-btn"
+                class="primary-button"
+                type="button"
+            >
+                CONNECT EXTERNAL WALLET
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     WALLET CONNECTED SCREEN
+     ========================================================= -->
+
+<section
+    id="wallet-connected-screen"
+    class="screen"
+>
+
+    <div class="auth-top">
+
+        <button
+            id="wallet-connected-back-btn"
+            class="back-button"
+            type="button"
+        >
+            ←
+        </button>
+
+    </div>
+
+
+    <div class="auth-content">
+
+        <h1>
+            Wallet Connected
+        </h1>
+
+        <p class="auth-subtitle">
+            Your external wallet is connected to VYRO.
+        </p>
+
+
+        <div class="auth-card">
+
+            <div class="auth-card-title">
+                SOLANA WALLET
+            </div>
+
+            <p
+                id="connected-wallet-address"
+                class="auth-card-text"
+            >
+                Wallet address will appear here.
+            </p>
+            
+            
+            <p id="connected-wallet-provider" class="auth-card-text">
+    Trust Wallet
+</p>
+            
+
+
+            <button
+                id="disconnect-wallet-btn"
+                class="secondary-button"
+                type="button"
+            >
+                DISCONNECT WALLET
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PAYMENT SUCCESS SCREEN
+     ========================================================= -->
+
+<section
+    id="payment-success-screen"
+    class="screen"
+>
+
+    <div class="auth-content">
+
+        <div class="verification-message">
+
+            <div class="verification-icon">
+                ✓
+            </div>
+
+            <h2>
+                Payment Sent
+            </h2>
+
+            <p>
+                Your payment has been submitted successfully.
+            </p>
+
+            <p
+                id="payment-success-summary"
+                class="verification-spam"
+            >
+                —
+            </p>
+
+        </div>
+
+
+        <button
+            id="payment-success-home-btn"
+            class="primary-button auth-button"
+            type="button"
+        >
+            BACK TO HOME
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PAYMENT FAILED SCREEN
+     ========================================================= -->
+
+<section
+    id="payment-failed-screen"
+    class="screen"
+>
+
+    <div class="auth-content">
+
+        <div class="verification-message">
+
+           <div class="verification-icon">
+                !
+            </div>
+
+            <h2>
+                Payment Failed
+            </h2>
+
+            <p
+                id="payment-failed-message"
+            >
+                Your payment could not be completed.
+            </p>
+
+        </div>
+
+
+        <button
+            id="payment-failed-back-btn"
+            class="primary-button auth-button"
+            type="button"
+        >
+            BACK TO SEND
+        </button>
+
+
+        <button
+            id="payment-failed-home-btn"
+            class="secondary-button auth-button"
+            type="button"
+        >
+            BACK TO HOME
+        </button>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     VYRO / FIREBASE SCRIPTS
      ========================================================= -->
 
 <script src="js/config.js"></script>
+
+
+<!-- Firebase -->
+
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+
+
+<!-- Firebase Configuration -->
+
 <script src="js/firebase-config.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/wallets.js"></script>
+
+
+<!-- VYRO Files -->
+
+<script src="js/wallet.js"></script>
+
 <script src="js/payments.js"></script>
+
 <script src="js/app.js"></script>
 
+<script src="js/auth.js"></script>
+
+
 </body>
-</html>
+
+            </html>
