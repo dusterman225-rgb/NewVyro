@@ -864,6 +864,13 @@ function renderConfirmScreen(q, wallet) {
     set("confirm-amount", VYROTransfer.formatUnits(BigInt(q.units), window.VYRO_CONFIG.solana.usdcDecimals) + " USDC");
     set("confirm-network", q.network);
     set("confirm-wallet", (wallet.provider || wallet.type || "External Wallet") + " • " + wallet.address.slice(0, 6) + "..." + wallet.address.slice(-4));
+    
+        const walletName = wallet.provider || "your wallet";
+    set("confirm-disclaimer",
+        "By tapping CONFIRM PAYMENT, you authorize a transfer of " +
+        VYROTransfer.formatUnits(BigInt(q.units), window.VYRO_CONFIG.solana.usdcDecimals) + " USDC to " + q.recipient +
+        ". Your " + walletName + " will open a request, and the payment only happens if you approve and sign it there. " +
+        "VYRO cannot move your funds without your approval. Blockchain payments cannot be reversed.");
 
     let note = "Network fee: about 0.000005 SOL, paid from your wallet.";
     if (q.createsRecipientAccount) {
