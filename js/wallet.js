@@ -78,6 +78,7 @@
         wcSession = null;
         load();
         updateUI();
+        if (uid) adoptPendingSession().catch(function (e) { console.warn("VYRO: could not restore WalletConnect session", e); });
     }
 
     // Reads the address this user has published to the username directory.
@@ -241,10 +242,40 @@
     }
 
     function isMobile() { return /android|iphone|ipad|ipod/i.test(navigator.userAgent); }
+    
+        const PENDING_WC = "vyro_wc_pending";
+
+    // Phones often reload this page when the user returns from the wallet app, which loses the
+    // in-memory approval. WalletConnect keeps the session in storage, so pick it up here.
+    async function adoptPendingSession() {
+        if (!uid) return null;
+        let pend = null;
+        try { pend = JSON.parse(localStorage.getItem(PENDING_WC) || "null"); } catch (e) { pend = null; }
+        if (!pend || Date.now() - pend.t > 10 * 60 * 1000) {
+            try { localStorage.removeItem(PENDING_WC); } catch (e) { /* ignore */ }
+            return null;
+        }
+        const client = await ensureWcClient();
+        if (!client) return null;
+        const all = client.session.getAll();
+        for (let i = all.length - 1; i >= 0; i--) {
+            const accts = (all[i].namespaces && all[i].namespaces.solana && all[i].namespaces.solana.accounts) || [];
+            const address = accts[0] ? accts[0].split(":").pop() : null;
+            if (!address) continue;
+            wcSession = all[i];
+            const peer = all[i].peer && all[i].peer.metadata && all[i].peer.metadata.name;
+            const w = addWallet(address, "walletconnect", pend.label || peer || "WalletConnect");
+            try { localStorage.removeItem(PENDING_WC); } catch (e) { /* ignore */ }
+            if (w) showConnectedWallet();
+            return w;
+        }
+        return null;
+    }
 
     async function connectWalletConnect(deepLinkBase, label) { 
         const client = await ensureWcClient();
         if (!client) return null;
+                try { localStorage.setItem(PENDING_WC, JSON.stringify({ label: label || null, t: Date.now() })); } catch (e) { /* ignore */ }
         const res = await client.connect({
             requiredNamespaces: { solana: { methods: ["solana_signTransaction", "solana_signMessage"], chains: [SOLANA_CHAIN], events: [] } }
         });
@@ -265,6 +296,7 @@
         // WalletConnect is only the connection method. Show the REAL wallet's name:
         // the one the user tapped, or else the name the wallet itself reports.
         const peer = wcSession.peer && wcSession.peer.metadata && wcSession.peer.metadata.name;
+                try { localStorage.removeItem(PENDING_WC); } catch (e) { /* ignore */ }
         return addWallet(address, "walletconnect", label || peer || "WalletConnect");
     }
 
@@ -390,7 +422,14 @@
         });
     }
 
-    function init() { bind(); updateUI(); }
+        function init() {
+        bind();
+        updateUI();
+        // Coming back from the wallet app: check whether the connection finished.
+        document.addEventListener("visibilitychange", function () {
+            if (document.visibilityState === "visible") adoptPendingSession().catch(function () {});
+        });
+    }
 
     window.VYROWallet = {
         init, connect, disconnect, restoreConnection,
