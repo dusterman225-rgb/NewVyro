@@ -242,6 +242,20 @@
     }
 
     function isMobile() { return /android|iphone|ipad|ipod/i.test(navigator.userAgent); }
+
+    // Where to send the user so they land on their wallet's pending approval request.
+    function walletAppLink(session) {
+        const meta = session && session.peer && session.peer.metadata;
+        const r = meta && meta.redirect;
+        if (r && (r.universal || r.native)) return r.universal || r.native;
+        if (meta && /trust/i.test(meta.name || "")) return "https://link.trustwallet.com";
+        return null;
+    }
+    function openWalletApp(session) {
+        if (!isMobile()) return;
+        const link = walletAppLink(session);
+        if (link) window.location.href = link;
+    }
     
         const PENDING_WC = "vyro_wc_pending";
 
@@ -362,11 +376,13 @@
             const session = client && wcSessionForAddress(expectedAddress);
             if (!session) throw new Error("This WalletConnect session has expired. Remove the wallet and connect it again.");
             const raw = tx.serialize({ requireAllSignatures: false, verifySignatures: false });
-            const result = await client.request({
+                        const pendingRequest = client.request({
                 topic: session.topic,
                 chainId: SOLANA_CHAIN,
                 request: { method: "solana_signTransaction", params: { transaction: VYROTransfer.bytesToBase64(raw) } }
             });
+            openWalletApp(session);   // send the user to the approval request waiting in their wallet
+            const result = await pendingRequest;
             if (result && result.transaction) return { signedRaw: VYROTransfer.base64ToBytes(result.transaction) };
             if (result && result.signature) {
                 tx.addSignature(new solanaWeb3.PublicKey(expectedAddress), solanaWeb3.Buffer ? solanaWeb3.Buffer.from(VYROTransfer.base58Decode(result.signature)) : VYROTransfer.base58Decode(result.signature));
