@@ -19,7 +19,7 @@ window.VYRO_CONFIG = Object.freeze({
         // Replace with a dedicated endpoint (Helius, QuickNode, Triton, ...).
         // An API key in a browser-side URL is visible to users; restrict it by
         // allowed domain/origin in the provider dashboard.
-        rpcUrl: "https://api.mainnet-beta.solana.com",
+        rpcUrl: "https://solana-mainnet.g.alchemy.com/v2/alch_X9mveVmXQneC5MXDJXAEi",
 
         // Circle's native USDC on Solana mainnet.
         usdcMint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
