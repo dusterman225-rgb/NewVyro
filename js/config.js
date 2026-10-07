@@ -35,7 +35,7 @@ window.VYRO_CONFIG = Object.freeze({
 
     // Optional: add your WalletConnect Cloud project ID here.
     // Injected wallets (Trust Wallet / Phantom / Solflare / Backpack) do not require it.
-    walletConnectProjectId: "",
+    walletConnectProjectId: "44f320d19361d5829141766a65015080",
     walletConnectMetadata: {
         name: "VYRO",
         description: "Non-custodial crypto transfers by username.",
