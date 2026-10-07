@@ -242,7 +242,7 @@
 
     function isMobile() { return /android|iphone|ipad|ipod/i.test(navigator.userAgent); }
 
-    async function connectWalletConnect(deepLinkBase) {
+    async function connectWalletConnect(deepLinkBase, label) { 
         const client = await ensureWcClient();
         if (!client) return null;
         const res = await client.connect({
@@ -257,11 +257,15 @@
                 console.info("VYRO WalletConnect URI:", res.uri); // desktop QR display is a planned addition
             }
         }
-        wcSession = await res.approval();
+        
+                wcSession = await res.approval();
         const account = wcSession && wcSession.namespaces && wcSession.namespaces.solana && wcSession.namespaces.solana.accounts[0];
         const address = account ? account.split(":").pop() : null;
         if (!address) throw new Error("WalletConnect did not return a Solana address.");
-        return addWallet(address, "walletconnect", "WalletConnect");
+        // WalletConnect is only the connection method. Show the REAL wallet's name:
+        // the one the user tapped, or else the name the wallet itself reports.
+        const peer = wcSession.peer && wcSession.peer.metadata && wcSession.peer.metadata.name;
+        return addWallet(address, "walletconnect", label || peer || "WalletConnect");
     }
 
     // ---------- connect (public entry point) ----------
@@ -273,12 +277,12 @@
             let w = null;
             if (type === "walletconnect") {
                 if (!CFG.walletConnectProjectId) throw new Error("WalletConnect is not configured yet (missing project ID).");
-                w = await connectWalletConnect("https://link.trustwallet.com/wc?uri=");
+               w = await connectWalletConnect("https://link.trustwallet.com/wc?uri=", null);
             } else if (injected(type)) {
                 w = await connectInjected(type);
             } else if (CFG.walletConnectProjectId) {
                 // Wallet not injected (e.g. normal mobile browser): fall back to WalletConnect.
-                w = await connectWalletConnect(type === "trust-wallet" ? "https://link.trustwallet.com/wc?uri=" : null);
+              w = await connectWalletConnect(type === "trust-wallet" ? "https://link.trustwallet.com/wc?uri=" : null, providerName(type));
             } else {
                 throw new Error(providerName(type) + " was not detected. Open VYRO inside the " + providerName(type) + " app's browser, or enable WalletConnect in js/config.js.");
             }
