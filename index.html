@@ -7,7 +7,7 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
     <meta
@@ -45,12 +45,9 @@
 
 <section id="welcome-screen" class="screen active">
 
-<div class="logo">
-    <img
-        src="assets/vyro-wordmark.png"
-        alt="VYRO"
-    >
-</div>
+    <div class="logo">
+        VYRO
+    </div>
 
     <div class="welcome-content">
 
@@ -572,12 +569,9 @@
 
 <div class="home-header">
 
-<div class="home-brand">
-    <img
-        src="assets/vyro-wordmark.png"
-        alt="VYRO"
-    >
-</div>
+    <div class="home-brand">
+        VYRO
+    </div>
 
     <div class="profile-menu">
 
@@ -773,6 +767,21 @@
 
         <div class="form-group">
 
+            <label for="send-wallet">
+                SEND FROM
+            </label>
+
+            <select id="send-wallet">
+                <option value="">
+                    Select wallet
+                </option>
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
             <label for="send-asset">
                 Asset
             </label>
@@ -930,10 +939,11 @@
                     SEND TO
                 </span>
 
-                <strong id="confirm-recipient">
-                    @username
-                </strong>
+                \1
 
+            <div class="summary-row summary-row-address">
+                <span>RECIPIENT WALLET</span>
+                <strong id="confirm-recipient-address" class="mono-address">—</strong>
             </div>
 
 
@@ -962,8 +972,27 @@
 
             </div>
 
+            <div class="summary-row">
+
+                <span>
+                    FROM WALLET
+                </span>
+
+                <strong id="confirm-wallet">
+                    External Wallet
+                </strong>
+
+            </div>
+
         </div>
 
+
+        <p id="confirm-fee-note" class="auth-card-text"></p>
+
+        <p class="auth-card-text">
+            VYRO never moves your money. Your wallet will show this payment and ask you to approve it.
+            Check the recipient wallet above: blockchain payments cannot be reversed.
+        </p>
 
         <div class="verification-box">
 
@@ -1051,6 +1080,28 @@
         </p>
 
 
+        <div class="form-group">
+
+            <label for="receive-wallet">
+                RECEIVE TO
+            </label>
+
+            <select id="receive-wallet">
+                <option value="">
+                    Select wallet
+                </option>
+            </select>
+
+            <p
+                id="receive-wallet-address"
+                class="wallet-address-display"
+            >
+                Select a wallet
+            </p>
+
+        </div>
+
+
         <div class="receive-card">
 
             <div class="receive-label">
@@ -1102,8 +1153,8 @@
 
 
         <p class="receive-note">
-            Your wallet address and QR code will appear here
-            once your wallet is connected.
+            Your selected wallet address is shown above.
+            A QR code can be added once VYRO's wallet/QR layer is connected.
         </p>
 
 
@@ -1112,7 +1163,7 @@
             class="secondary-button auth-button"
             type="button"
         >
-            COPY USERNAME
+            COPY WALLET ADDRESS
         </button>
 
     </div>
@@ -1316,17 +1367,15 @@
 >
 
     <div class="auth-top">
-
         <button
             id="wallets-back-btn"
             class="back-button"
             type="button"
+            aria-label="Back"
         >
             ←
         </button>
-
     </div>
-
 
     <div class="auth-content">
 
@@ -1336,85 +1385,20 @@
             Manage the external wallets connected to VYRO.
         </p>
 
-
-        <!-- =================================================
-             SOLANA WALLET STATUS
-             ================================================= -->
-
-        <div class="auth-card">
-
-            <div class="auth-card-title">
-                SOLANA
+        <div id="wallet-list" class="wallet-list">
+            <div id="no-wallet-connected" class="auth-card">
+                <div class="auth-card-title">NO WALLET CONNECTED</div>
+                <p class="auth-card-text">Connect an external wallet. VYRO never receives your private keys or seed phrase.</p>
             </div>
-
-            <p
-                id="no-wallet-connected"
-                class="auth-card-text"
-            >
-                No wallet connected.
-            </p>
-
         </div>
-
-
-        <!-- =================================================
-             SAVED / CONNECTED WALLET
-             ================================================= -->
-
-        <div
-            id="saved-wallet-card"
-            class="auth-card"
-            style="display:none;"
-        >
-
-            <div class="auth-card-title">
-                CONNECTED WALLET
-            </div>
-
-            <p
-                id="saved-wallet-provider"
-                class="auth-card-text"
-            >
-                Trust Wallet
-            </p>
-
-            <p
-                id="saved-wallet-network"
-                class="auth-card-text"
-            >
-                SOLANA
-            </p>
-
-<p
-    id="saved-wallet-address"
-    class="auth-card-text wallet-address-display"
->
-    Wallet address
-</p>
-
-<button
-    id="copy-wallet-address-btn"
-    class="secondary-button"
-    type="button"
->
-    COPY ADDRESS
-</button>
-
-        </div>
-
-
-        <!-- =================================================
-             CONNECT WALLET BUTTON
-             ================================================= -->
 
         <button
             id="connect-wallet-btn"
-            class="primary-button"
+            class="primary-button auth-button"
             type="button"
         >
             CONNECT WALLET
         </button>
-
 
     </div>
 
@@ -1589,12 +1573,8 @@
                 TRANSACTION ID
             </div>
 
-            <p
-                id="transaction-detail-id"
-                class="auth-card-text"
-            >
-                —
-            </p>
+            \1
+            <a id="transaction-detail-link" class="explorer-link" href="#" target="_blank" rel="noopener noreferrer" style="display:none">View on Solscan</a>
 
         </div>
 
@@ -1956,13 +1936,13 @@
             </p>
 
 
-            <button
-                id="phantom-wallet-btn"
-                class="primary-button"
-                type="button"
-            >
-                CONNECT EXTERNAL WALLET
-            </button>
+            <button class="primary-button" type="button" data-wallet-connect="trust-wallet">TRUST WALLET</button>
+            <button class="secondary-button" type="button" data-wallet-connect="phantom">PHANTOM</button>
+            <button class="secondary-button" type="button" data-wallet-connect="solflare">SOLFLARE</button>
+            <button class="secondary-button" type="button" data-wallet-connect="backpack">BACKPACK</button>
+            <button class="secondary-button" type="button" data-wallet-connect="walletconnect">OTHER WALLET (WALLETCONNECT)</button>
+
+            <p id="wallet-connect-status" class="auth-card-text wallet-connect-status"></p>
 
         </div>
 
@@ -2016,12 +1996,13 @@
             >
                 Wallet address will appear here.
             </p>
-            
-            
-            <p id="connected-wallet-provider" class="auth-card-text">
-    Trust Wallet
-</p>
-            
+
+            <p
+                id="connected-wallet-provider"
+                class="auth-card-text"
+            >
+                External Wallet
+            </p>
 
 
             <button
@@ -2064,12 +2045,8 @@
                 Your payment has been submitted successfully.
             </p>
 
-            <p
-                id="payment-success-summary"
-                class="verification-spam"
-            >
-                —
-            </p>
+            \1
+            <a id="payment-success-link" class="explorer-link" href="#" target="_blank" rel="noopener noreferrer" style="display:none">View on Solscan</a>
 
         </div>
 
@@ -2100,7 +2077,7 @@
 
         <div class="verification-message">
 
-           <div class="verification-icon">
+            <div class="verification-icon">
                 !
             </div>
 
@@ -2108,11 +2085,8 @@
                 Payment Failed
             </h2>
 
-            <p
-                id="payment-failed-message"
-            >
-                Your payment could not be completed.
-            </p>
+            \1
+            <a id="payment-failed-link" class="explorer-link" href="#" target="_blank" rel="noopener noreferrer" style="display:none">View on Solscan</a>
 
         </div>
 
@@ -2163,9 +2137,16 @@
 <script src="js/firebase-config.js"></script>
 
 
-    <script src="https://unpkg.com/@walletconnect/sign-client@2.23.4/dist/index.umd.js"></script>
+<!-- Solana library: builds the UNSIGNED transfer; the user's wallet signs it.
+     Version is pinned. See README -> "Locking down third-party scripts" to add an integrity hash. -->
+<script src="https://unpkg.com/@solana/web3.js@1.98.4/lib/index.iife.min.js" crossorigin="anonymous"></script>
+
+<!-- Optional WalletConnect SignClient (exposes window["@walletconnect/sign-client"]). -->
+<script src="https://unpkg.com/@walletconnect/sign-client@2.23.4/dist/index.umd.js" crossorigin="anonymous"></script>
 
 <!-- VYRO Files -->
+
+<script src="js/transfer.js"></script>
 
 <script src="js/wallet.js"></script>
 
@@ -2178,4 +2159,4 @@
 
 </body>
 
-            </html>
+</html>
